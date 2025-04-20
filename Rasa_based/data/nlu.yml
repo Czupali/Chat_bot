@@ -90,11 +90,11 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
-# UJ INTENTEK – AI temaju kerdesek kulcsszavas entitassal (topic)
+# UJ INTENTEK – AI temaju kerdesek kulcsszavas entitassal(topic)
 
 - intent: ask_topic
   examples: |
-  - What is [artificial intelligence](topic)?
+    - What is [artificial intelligence](topic)?
     - Can you explain what [AI](topic) is?
     - Define [artificial intelligence](topic)
     - What does [AI](topic) mean?

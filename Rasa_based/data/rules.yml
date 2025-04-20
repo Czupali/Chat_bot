@@ -11,3 +11,8 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+- rule: Handle single or multiple topics
+  steps:
+  - intent: ask_topic
+  - action: action_topic_handler

@@ -24,13 +24,19 @@ from typing import Any, Text, Dict, List
 import os
 import datetime
 
-def log_error_to_file(user_message, message: str):
+SESSION_TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+SESSION_LOG_PATH = f"logs/session_{SESSION_TIMESTAMP}.log"
+
+def log_error_to_file(user_message: str, message: str):
     os.makedirs("logs", exist_ok=True)
-    with open(f"logs/{datetime.datetime.now()}errors.log", "a", encoding="utf-8") as f:
-        f.write(f"user message: {user_message}\n message: {message}\n")
+    with open(SESSION_LOG_PATH, "a", encoding="utf-8") as f:
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+        f.write(f"[{timestamp}] USER: {user_message}\nERROR: {message}\n\n")
+
+log_error_to_file("SYSTEM", "Action server started – new session log created.")
 
 def call_llm(prompt: str) -> str:
-    # Itt később jöhet OpenAI, HuggingFace, Mistral, stb.
+    # Itt kesobb johet OpenAI, HuggingFace, Mistral, stb.
     return "🔮 (This is where an LLM would generate a smart answer...)"
 
 class ActionTopicHandler(Action):

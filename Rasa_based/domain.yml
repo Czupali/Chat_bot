@@ -8,8 +8,15 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
-  - ask_ai_definition
-  - ask_research_topic
+  - ask_topic
+
+entities:
+  - topic
+
+# slots:
+#   topics:
+#     type: list
+#     influence_conversation: false
 
 responses:
   utter_greet:
@@ -31,8 +38,14 @@ responses:
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
 
-  utter_supervised_learning_unsupervised_learning:
-  - text: "Supervised learning uses labeled data, while unsupervised learning finds structure without labels."
+  utter_no_topic:
+    - text: "I couldn't identify any specific topic. Could you rephrase?"
+
+  # utter_supervised_learning_unsupervised_learning:
+  # - text: "Supervised learning uses labeled data, while unsupervised learning finds structure without labels."
+
+actions:
+  - action_topic_handler
 
 session_config:
   session_expiration_time: 60

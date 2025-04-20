@@ -28,3 +28,13 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+- story: ask a single topic
+  steps:
+  - intent: ask_topic
+  - action: action_topic_handler
+
+- story: ask multiple topics
+  steps:
+  - intent: ask_topic
+  - action: action_topic_handler
