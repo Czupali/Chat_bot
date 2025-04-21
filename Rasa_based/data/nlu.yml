@@ -152,6 +152,107 @@ nlu:
     - What is the function of [embedding layers](topic)?
     - How does [tokenization](topic) work in [NLP](topic)?
 
+- intent: ask_how_are_you
+  examples: |
+    - How are you?
+    - How you doing?
+    - What's up with you?
+    - How's it going?
+    - Are you okay?
+    - How are you feeling?
+    - What's your mood today?
+    - You good?
+    - How's your day going?
+    
+- intent: ask_what_are_you
+  examples: |
+    - What are you?
+    - Who are you?
+    - What kind of bot are you?
+    - What’s your deal?
+    - Are you a robot?
+    - What makes you tick?
+    - What are you made of?
+    - Tell me about yourself.
+    - What’s your identity?
+
+- intent: ask_what_can_you_do
+  examples: |
+    - What can you do for me?
+    - What can you do?
+    - What are your abilities?
+    - How can you help me?
+    - What do you offer?
+    - What’s your skill set?
+    - Can you do anything cool?
+    - What can I ask you?
+    - What are you capable of?
+
+- intent: ask_favorite
+  examples: |
+    - What's your favorite color?
+    - Do you have a favorite movie?
+    - What's your favorite food?
+    - What music do you like?
+    - What's your favorite book?
+    - Do you have a favorite hobby?
+    - What's your favorite thing to do?
+    - What’s your favorite animal?
+    - Do you like any sports?
+    - What's your favorite place?
+
+- intent: ask_joke
+  examples: |
+    - Tell me a joke!
+    - Can you make me laugh?
+    - Got any funny stories?
+    - Share a joke with me!
+    - What's a good joke?
+    - Make me smile with a joke!
+    - Do you know any jokes?
+    - Tell me something funny!
+    - Can you tell a pun?
+    - What's the funniest thing you know?
+
+- intent: ask_weather
+  examples: |
+    - How's the weather?
+    - What's the weather like today?
+    - Is it sunny out there?
+    - How’s the weather where you are?
+    - Should I bring an umbrella?
+    - Is it cold today?
+    - What's the forecast?
+    - How's the weather in your world?
+    - Is it nice outside?
+    - Tell me about the weather!
+
+- intent: ask_whats_new
+  examples: |
+    - What's new with you?
+    - What's up?
+    - Anything new going on?
+    - What’s the latest with you?
+    - Got any news?
+    - What's happening?
+    - What's the word on the street?
+    - Any updates?
+    - What's fresh in your world?
+    - What’s going on?
+
+- intent: ask_motivation
+  examples: |
+    - Can you motivate me?
+    - Give me a pep talk!
+    - I need some inspiration!
+    - Cheer me up!
+    - Can you give me a boost?
+    - Tell me something inspiring!
+    - I’m feeling down, help me out!
+    - Motivate me to keep going!
+    - Can you encourage me?
+    - Give me some positive vibes!
+
 synonyms:
   - AI: artificial intelligence
   - GANs: generative adversarial networks

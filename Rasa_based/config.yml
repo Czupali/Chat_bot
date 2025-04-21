@@ -10,41 +10,58 @@ assistant_id: 20250418-201645-nullary-azimuth
 # https://rasa.com/docs/rasa/nlu/components/
 language: en
 
-pipeline: null
+pipeline: #null
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # # If you'd like to customize it, uncomment and adjust the pipeline.
 # # See https://rasa.com/docs/rasa/tuning-your-model for more information.
-#   - name: WhitespaceTokenizer
+   - name: WhitespaceTokenizer
+   # Egyszerű és szükséges az angol szövegek tokenizálásához.
 #   - name: RegexFeaturizer
-#   - name: LexicalSyntacticFeaturizer
-#   - name: CountVectorsFeaturizer
+   - name: LexicalSyntacticFeaturizer
+   # Segíti a DIETClassifier-t a tudományos kifejezések (pl. "convolutional neural networks") és small talk kontextusok megértésében.
+   - name: CountVectorsFeaturizer
+   # Alapvető szövegjellemzőket ad, amelyek javítják a DIETClassifier pontosságát.
 #   - name: CountVectorsFeaturizer
 #     analyzer: char_wb
 #     min_ngram: 1
 #     max_ngram: 4
-#   - name: DIETClassifier
-#     epochs: 100
-#     constrain_similarities: true
-#   - name: EntitySynonymMapper
+   - name: DIETClassifier
+     epochs: 100
+     # Az epochs: 100 jó kiindulópont, de ha túlillesztést tapasztalsz (pl. a modell túl specifikusan tanulja az nlu.yml példáit), csökkentsd 50-80-ra.
+     constrain_similarities: true
+     # A fő osztályozó, amely az intenteket és entitásokat kezeli. Az epochs: 100 elegendő a jelenlegi adathalmazhoz, a constrain_similarities: true javítja a hasonlósági számításokat.
+   - name: EntitySynonymMapper
+   # Szükséges a szinonímák (pl. "AI" → "artificial intelligence") kezeléséhez.
 #   - name: ResponseSelector
 #     epochs: 100
 #     constrain_similarities: true
-#   - name: FallbackClassifier
-#     threshold: 0.3
-#     ambiguity_threshold: 0.1
+   - name: FallbackClassifier
+     threshold: 0.3
+     # A threshold: 0.3 konzervatív, de biztosítja, hogy csak nagyon bizonytalan esetekben lépjen működésbe a fallback. Ha túl sok kérdés kerül a fallback-hoz, emeld 0.4-re.
+     ambiguity_threshold: 0.1
+     # Segít az ismeretlen kérdések kezelésében, például egy utter_fallback válasszal. A threshold: 0.3 és ambiguity_threshold: 0.1 konzervatív, de megfelelő a kis adathalmazhoz.
+
+# Kihagyva: RegexFeaturizer (nincs szükség egyedi mintákra), ResponseSelector (nincs FAQ-stílusú válaszadás), és a karakter n-gram CountVectorsFeaturizer (túlzott komplexitás).
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
-policies: null
+policies: #null
 # # No configuration for policies was provided. The following default policies were used to train your model.
 # # If you'd like to customize them, uncomment and adjust the policies.
 # # See https://rasa.com/docs/rasa/policies for more information.
-#   - name: MemoizationPolicy
-#   - name: RulePolicy
+   - name: MemoizationPolicy
+   # Támogatja a stories.yml-ben definiált egyszerű forgatókönyveket (pl. small talk, tudományos témák).
+   - name: RulePolicy
+   # Elengedhetetlen a rules.yml-ben definiált determinisztikus szabályokhoz (pl. ask_joke → utter_joke).
 #   - name: UnexpecTEDIntentPolicy
 #     max_history: 5
 #     epochs: 100
-#   - name: TEDPolicy
-#     max_history: 5
-#     epochs: 100
-#     constrain_similarities: true
+   - name: TEDPolicy
+     max_history: 5
+     # A max_history: 5 megfelelő, mert a beszélgetések nem túl hosszú kontextust igényelnek. Ha komplexebb forgatókönyveket vezetsz be (pl. publikációk kezelése), növelheted 7-10-re.
+     epochs: 100
+     # ( Az epochs: 100 jó kiindulópont, de ha túlillesztést tapasztalsz (pl. a modell túl specifikusan tanulja az nlu.yml példáit), csökkentsd 50-80-ra. )
+     constrain_similarities: true
+     # Rugalmasságot ad a komplexebb beszélgetésekhez, például amikor a felhasználó small talk és tudományos témák között vált. Az epochs: 100 és max_history: 5 jó egyensúlyt biztosít a tanulás és a teljesítmény között.
+
+# Kihagyva: UnexpecTEDIntentPolicy (a jelenlegi forgatókönyvek elég egyszerűek, a TEDPolicy elegendő).
