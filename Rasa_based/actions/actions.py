@@ -27,20 +27,25 @@ load_dotenv()
 SESSION_TIMESTAMP = os.getenv("SESSION_LOG_TIMESTAMP")
 if not SESSION_TIMESTAMP:
     SESSION_TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    set_key(".env", "SESSION_LOG_TIMESTAMP", SESSION_TIMESTAMP)
+    try:
+        set_key(".env", "SESSION_LOG_TIMESTAMP", SESSION_TIMESTAMP)
+    except Exception as e:
+        print(f"Failed to update .env with SESSION_LOG_TIMESTAMP: {e}")
 
 SESSION_LOG_PATH = f"logs/session_{SESSION_TIMESTAMP}.log"
 
 os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(levelname)s - [Action] %(message)s",
     handlers=[
         logging.FileHandler(SESSION_LOG_PATH, encoding="utf-8"),
         logging.StreamHandler()  # Konzolra is ir
     ]
 )
 logger = logging.getLogger(__name__)
+
+print("*"*10 + "Mukodik a log" + "SESSION_LOG_PATH: " + SESSION_LOG_PATH)
 
 # Kornyezeti valtozok ellenorzese
 if os.getenv("RASA_URL"):

@@ -3,42 +3,51 @@ import requests
 import logging
 import os
 import datetime
-from dotenv import load_dotenv
+from dotenv import load_dotenv, set_key
+from process_pdf import extract_pdf_text 
 
-# Kornyezeti valtozok betoltese
+# Kornyezeti valtozok betoltes
 load_dotenv()
 
-# Idobelyeg kezelese
-SESSION_TIMESTAMP = os.getenv("SESSION_LOG_TIMESTAMP")
+# RASA_URL ellenorzes
+RASA_URL = os.getenv("RASA_URL", "http://localhost:5005/webhooks/rest/webhook")
+if not os.getenv("RASA_URL"):
+    print("Warning: RASA_URL not set in .env. Using default: http://localhost:5005/webhooks/rest/webhook")
 
+# Idobelyeg kezeles
+SESSION_TIMESTAMP = os.getenv("SESSION_LOG_TIMESTAMP")
 # Ha nincs idobelyeg, generalj ujat
 if not SESSION_TIMESTAMP:
     SESSION_TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     try:
-        os.set_key(".env", "SESSION_LOG_TIMESTAMP", SESSION_TIMESTAMP)
+        set_key(".env", "SESSION_LOG_TIMESTAMP", SESSION_TIMESTAMP)
     except Exception as e:
         print(f"Failed to update .env with SESSION_LOG_TIMESTAMP: {e}")  # Ideiglenes print, mert a logger még nem létezik
 
 SESSION_LOG_PATH = f"logs/session_{SESSION_TIMESTAMP}.log"
 
+# logolas
 os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - [Gradio] %(message)s",
     handlers=[
         logging.FileHandler(SESSION_LOG_PATH, encoding="utf-8"),
-        logging.StreamHandler()
+        logging.StreamHandler() # kimenetre is
     ]
 )
 logger = logging.getLogger(__name__)
+
+print("*"*10 + "Mukodik a log" + "SESSION_LOG_PATH: " + SESSION_LOG_PATH)
+
+logger.info("Successfully loaded .env file")
+logger.info(f"Gradio app started – session log: {SESSION_LOG_PATH}")
 
 # Kornyezeti valtozok ellenorzese
 if os.getenv("RASA_URL"):
     logger.info("Successfully loaded .env file")
 else:
     logger.error("Failed to load .env file")
-
-RASA_URL = os.getenv("RASA_URL", "http://localhost:5005/webhooks/rest/webhook")
 
 logger.info("Gradio app started – new session log created.")
 
@@ -69,11 +78,16 @@ def chat_with_rasa(message, history):
             logger.error("Empty response from Rasa server.")
             bot_reply = "⚠️ The chatbot didn't respond. Please try again."
         else:
-            bot_reply = "\n".join([d["text"] for d in data if "text" in d])
-            if not bot_reply:
-                logger.error("No valid text in Rasa response.")
-                bot_reply = "⚠️ No valid response from the chatbot."
-        logger.info(f"Rasa response: {bot_reply}")
+            bot_reply = ""
+            for item in data:
+                if "text" in item:
+                    bot_reply += item["text"] + "\n"
+                if "image" in item:
+                    bot_reply += f"![Image]({item['image']})\n"
+            bot_reply = bot_reply.strip() or "⚠️ Nincs érvényes válasz a chatbottól."
+            
+            logger.info(f"Rasa response: {bot_reply}")
+
     except requests.ConnectionError:
         logger.error("Connection error: Rasa server is not responding.")
         bot_reply = "⚠️ The chatbot server is not responding. Please check if it's running."
@@ -88,7 +102,19 @@ def chat_with_rasa(message, history):
         bot_reply = f"⚠️ Error: {e}"
 
     history.append((message, bot_reply))
+    state.append({"user": message, "bot": bot_reply})
     return history, history, ""  # Üzenetmező törlése
+
+
+def process_pdf_upload(pdf_file):
+    """PDF fajl feltoltese es szoveg kinyerese."""
+    if pdf_file is None:
+        logger.warning("No PDF file uploaded.")
+        return "Kérlek, tölts fel egy PDF fájlt."
+    result = extract_pdf_text(pdf_file)
+    logging.info(f"PDF processing result: {result}")
+    return result
+
 
 with gr.Blocks(title="AI Chatbot") as demo:
     gr.Markdown("""
@@ -99,11 +125,15 @@ with gr.Blocks(title="AI Chatbot") as demo:
     chatbot = gr.Chatbot()
     msg = gr.Textbox(label="Your message", placeholder="Type your message here...")
     clear_btn = gr.Button("Clear")
-
+    pdf_upload = gr.File(label="Upload PDF", file_types=[".pdf"])  # PDF feltolto
+    process_pdf_btn = gr.Button("Process PDF")  # Gomb
+    pdf_output = gr.Textbox(label="PDF Processing Result")  # Kimenet
+    
     state = gr.State([])
 
     msg.submit(chat_with_rasa, [msg, state], [chatbot, state, msg])
     clear_btn.click(lambda: ([], []), None, [chatbot, state])
+    process_pdf_btn.click(process_pdf_upload, pdf_upload, pdf_output)
 
 if __name__ == "__main__":
     if not check_rasa_server():
