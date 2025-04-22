@@ -2,7 +2,7 @@ import gradio as gr
 import requests
 import logging
 import os
-import datetime
+# import datetime
 from dotenv import load_dotenv, set_key
 from process_pdf import extract_pdf_text 
 
@@ -14,20 +14,14 @@ RASA_URL = os.getenv("RASA_URL", "http://localhost:5005/webhooks/rest/webhook")
 if not os.getenv("RASA_URL"):
     print("Warning: RASA_URL not set in .env. Using default: http://localhost:5005/webhooks/rest/webhook")
 
-# Idobelyeg kezeles
-SESSION_TIMESTAMP = os.getenv("SESSION_LOG_TIMESTAMP")
-# Ha nincs idobelyeg, generalj ujat
-if not SESSION_TIMESTAMP:
-    SESSION_TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    try:
-        set_key(".env", "SESSION_LOG_TIMESTAMP", SESSION_TIMESTAMP)
-    except Exception as e:
-        print(f"Failed to update .env with SESSION_LOG_TIMESTAMP: {e}")  # Ideiglenes print, mert a logger még nem létezik
+# SESSION_LOG_PATH beloadolas
+SESSION_LOG_PATH = os.getenv("SESSION_LOG_PATH")
+if not SESSION_LOG_PATH:
+    print("Error: SESSION_LOG_PATH not set in .env. Please ensure the action server initializes it.")
 
-SESSION_LOG_PATH = f"logs/session_{SESSION_TIMESTAMP}.log"
 
 # logolas
-os.makedirs("logs", exist_ok=True)
+os.makedirs(os.path.dirname(SESSION_LOG_PATH), exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - [Gradio] %(message)s",
@@ -43,35 +37,28 @@ print("*"*10 + "Mukodik a log" + "SESSION_LOG_PATH: " + SESSION_LOG_PATH)
 logger.info("Successfully loaded .env file")
 logger.info(f"Gradio app started – session log: {SESSION_LOG_PATH}")
 
-# Kornyezeti valtozok ellenorzese
-if os.getenv("RASA_URL"):
-    logger.info("Successfully loaded .env file")
-else:
-    logger.error("Failed to load .env file")
-
-logger.info("Gradio app started – new session log created.")
 
 def check_rasa_server():
     """Ellenorzi, hogy a Rasa szerver elerheto-e."""
     try:
-        response = requests.get("http://localhost:5005", timeout=2)
+        response = requests.get(RASA_URL.replace("/webhooks/rest/webhook", ""), timeout=2)
         logger.info("Rasa server is reachable.")
         return response.status_code == 200
     except requests.RequestException as e:
         logger.error(f"Failed to connect to Rasa server: {e}")
         return False
 
-def chat_with_rasa(message, history):
+def chat_with_rasa(message, chatbot, state):
     """Kommunikacio a Rasa szerverrel."""
     if not message.strip():
         logger.warning("Empty message received.")
-        return history, history, "⚠️ Please enter a message."
-
+        return chatbot, state, "⚠️ Kérlek, írj üzenetet."
+    
     logger.info(f"User message: {message}")
 
-    payload = {"sender": "user", "message": message}
+    # payload = {"sender": "user", "message": message}
     try:
-        response = requests.post(RASA_URL, json=payload, timeout=5)
+        response = requests.post(RASA_URL, json={"sender": "user", "message": message}, timeout=5)
         response.raise_for_status()
         data = response.json()
         if not data:
@@ -101,9 +88,9 @@ def chat_with_rasa(message, history):
         logger.error(f"Request error: {e}")
         bot_reply = f"⚠️ Error: {e}"
 
-    history.append((message, bot_reply))
-    state.append({"user": message, "bot": bot_reply})
-    return history, history, ""  # Üzenetmező törlése
+    chatbot.append((message, bot_reply))
+    new_state = state + [{"user": message, "bot": bot_reply}]  # State módosítása
+    return chatbot, new_state, ""  # Uzenetmezo torlese
 
 
 def process_pdf_upload(pdf_file):
@@ -131,7 +118,7 @@ with gr.Blocks(title="AI Chatbot") as demo:
     
     state = gr.State([])
 
-    msg.submit(chat_with_rasa, [msg, state], [chatbot, state, msg])
+    msg.submit(chat_with_rasa, [msg, chatbot, state], [chatbot, state, msg])
     clear_btn.click(lambda: ([], []), None, [chatbot, state])
     process_pdf_btn.click(process_pdf_upload, pdf_upload, pdf_output)
 

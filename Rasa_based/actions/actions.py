@@ -23,38 +23,31 @@ from dotenv import load_dotenv, set_key
 # Kornyezeti valtozok betoltese
 load_dotenv()
 
-# Naplo idobelyeg generalasa, ha meg nincs
-SESSION_TIMESTAMP = os.getenv("SESSION_LOG_TIMESTAMP")
-if not SESSION_TIMESTAMP:
-    SESSION_TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+# SESSION_LOG_PATH inicial
+SESSION_LOG_PATH = os.getenv("SESSION_LOG_PATH")
+if not SESSION_LOG_PATH or "{timestamp}" in SESSION_LOG_PATH:
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    SESSION_LOG_PATH = f"C:/Chat_bot/Rasa_based/logs/session_{timestamp}.log"
     try:
-        set_key(".env", "SESSION_LOG_TIMESTAMP", SESSION_TIMESTAMP)
+        set_key(".env", "SESSION_LOG_PATH", SESSION_LOG_PATH)
     except Exception as e:
-        print(f"Failed to update .env with SESSION_LOG_TIMESTAMP: {e}")
+        print(f"Failed to update .env with SESSION_LOG_PATH: {e}")
 
-SESSION_LOG_PATH = f"logs/session_{SESSION_TIMESTAMP}.log"
 
-os.makedirs("logs", exist_ok=True)
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - [Action] %(message)s",
-    handlers=[
-        logging.FileHandler(SESSION_LOG_PATH, encoding="utf-8"),
-        logging.StreamHandler()  # Konzolra is ir
-    ]
-)
-logger = logging.getLogger(__name__)
+#logolas
+logger = logging.getLogger("ActionLogger")
+logger.setLevel(logging.INFO)
+if not logger.handlers:  # Elkeruljuk a dupla handlerek hozzaadasat
+    os.makedirs(os.path.dirname(SESSION_LOG_PATH), exist_ok=True)
+    handler = logging.FileHandler(SESSION_LOG_PATH, encoding="utf-8")
+    handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - [Action] %(message)s"))
+    logger.addHandler(handler)
+    logger.addHandler(logging.StreamHandler())
 
 print("*"*10 + "Mukodik a log" + "SESSION_LOG_PATH: " + SESSION_LOG_PATH)
 
-# Kornyezeti valtozok ellenorzese
-if os.getenv("RASA_URL"):
-    logger.info("Successfully loaded .env file")
-else:
-    logger.error("Failed to load .env file")
-
-# Szerver indításának naplózása
-logger.info("Action server started – new session log created.")
+# Szerver inditasanak naplozasa
+logger.info(f"Action server started – session log: {SESSION_LOG_PATH}")
 
 logger.info("Testing actions.py logging")
 
