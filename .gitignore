@@ -16,3 +16,4 @@ Rasa_based/logs/
 .pylintrc
 flake8_report.txt
 pylint_report.txt
+Rasa_based/processed_txt/
