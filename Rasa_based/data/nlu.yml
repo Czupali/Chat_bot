@@ -253,6 +253,18 @@ nlu:
     - Can you encourage me?
     - Give me some positive vibes!
 
+- intent: ask_pdf_content
+  examples: |
+    - What is in the PDF?
+    - Can you summarize the PDF content?
+    - Tell me about the PDF.
+    - What does the PDF say about [topic]?
+
+- intent: set_pdf_path
+  examples: |
+    - C:/Chat_bot/test_pdf.pdf
+    - C:/Chat_bot/Rasa_based/uploaded.pdf
+
 synonyms:
   - AI: artificial intelligence
   - GANs: generative adversarial networks

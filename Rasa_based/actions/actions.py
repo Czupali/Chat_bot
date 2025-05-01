@@ -4,14 +4,17 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
-import wikipedia
-from rasa_sdk import Action, Tracker
-from rasa_sdk.executor import CollectingDispatcher
 from typing import Any, Text, Dict, List
 import os
 import datetime
 import logging
+import re
+import wikipedia
+from rasa_sdk import Action, Tracker
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet
 from dotenv import load_dotenv, set_key
+from process_pdf import extract_pdf_text
 
 
 # model_name = "mistralai/Mistral-7B-Instruct-v0.1"
@@ -61,6 +64,75 @@ def call_llm(question: str) -> str:
     # answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
     # return answer.strip()
     return "🔮 (This is where an LLM would generate a smart answer...)"
+
+
+class ActionSetPDFPath(Action):
+    def name(self) -> str:
+        return "action_handle_pdf_question"
+
+    def run(self, dispatcher, tracker, domain):
+        pdf_path = tracker.get_slot("pdf_path")
+        if not pdf_path or not os.path.exists(pdf_path):
+            dispatcher.utter_message(response="utter_no_pdf")
+            return []
+        try:
+            pdf_text, _ = extract_pdf_text(pdf_path, save_to_file=False)
+            question = tracker.latest_message.get("text", "").lower()
+            # from nltk.corpus import stopwords
+            # stop_words = set(stopwords.words('english'))
+            # keywords = [word for word in question.split() if word.lower() not in stop_words]
+            keywords = question.split()
+            matches = []
+            for keyword in keywords:
+                pattern = r".{0,50}" + re.escape(keyword) + r".{0,50}"
+                # Ez a sor egy reguláris kifejezést (regex) állít elő,
+                #  amely a kulcsszó környezetét keresi a PDF szövegében.
+                found = re.findall(pattern, pdf_text, re.IGNORECASE)
+                matches.extend(found[:2])  # Maximum 2 találat kulcsszavonként
+            if matches:
+                answer = "\n".join(matches)
+            else:
+                answer = "No relevant information found in the PDF."
+            dispatcher.utter_message(response="utter_pdf_answer", pdf_answer=answer)
+        except FileNotFoundError:
+            dispatcher.utter_message(text="Error: PDF file not found.")
+        except SyntaxError:
+            dispatcher.utter_message(text="Error: Invalid PDF format.")
+        except Exception as e:
+            dispatcher.utter_message(text=f"Error processing PDF: {str(e)}")
+            logger.error(f"PDF processing error: {str(e)}")
+
+        return [SlotSet("pdf_path", pdf_path)]
+
+
+class ActionHandlePDFQuestion(Action):
+    def name(self) -> str:
+        return "action_handle_pdf_question"
+
+    def run(self, dispatcher, tracker, domain):
+        # Ellenőrizzük, van-e feltöltött PDF
+        pdf_path = tracker.get_slot("pdf_path")
+        if not pdf_path or not os.path.exists(pdf_path):
+            dispatcher.utter_message(response="utter_no_pdf")
+            return []
+
+        # Kinyerjük a PDF tartalmát
+        try:
+            pdf_text, _ = extract_pdf_text(pdf_path, save_to_file=False)
+            # Egyszerű összefoglaló (pl. az első 200 karakter)
+            summary = pdf_text[:200] + "..." if len(pdf_text) > 200 else pdf_text
+            dispatcher.utter_message(response="utter_pdf_summary", pdf_summary=summary)
+
+            # A felhasználó kérdése
+            question = tracker.latest_message.get("text", "")
+            # Placeholder: Egyszerű válasz a kérdés alapján (később bővíthető pl. LLM-mel)
+            answer = f"The PDF mentions: {summary}"
+            dispatcher.utter_message(response="utter_pdf_answer", pdf_answer=answer)
+        except Exception as e:
+            dispatcher.utter_message(text=f"Error processing PDF: {str(e)}")
+            logger.error(f"PDF processing error: {str(e)}")
+
+        return [SlotSet("pdf_path", pdf_path)]
 
 
 class ActionTopicHandler(Action):

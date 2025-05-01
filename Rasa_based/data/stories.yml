@@ -78,3 +78,8 @@ stories:
   steps:
   - intent: ask_motivation
   - action: utter_motivation
+
+- story: Set PDF path
+  steps:
+  - intent: set_pdf_path
+  - action: action_set_pdf_path

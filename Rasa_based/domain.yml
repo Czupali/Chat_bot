@@ -17,6 +17,7 @@ intents:
   - ask_weather
   - ask_whats_new
   - ask_motivation
+  - ask_pdf_content
 
 entities:
   - topic
@@ -91,6 +92,13 @@ responses:
   - text: "You’ve got this! Every step you take is a step closer to crushing it, just like a well-trained model."
   - text: "Keep pushing forward—you’re stronger than the toughest gradient descent! What’s your next goal?"
   - text: "Believe in yourself; you’re writing your own success story, one awesome moment at a time!"
+
+  utter_pdf_summary:
+      - text: "Here is a summary of the PDF content: {pdf_summary}"
+  utter_pdf_answer:
+      - text: "Based on the PDF, here is the answer: {pdf_answer}"
+  utter_no_pdf:
+      - text: "No PDF has been uploaded yet. Please upload a PDF first."
 
   utter_fallback:
   - text: "I'm not sure about that, but let's talk about something else! What's on your mind?"

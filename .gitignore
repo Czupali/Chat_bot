@@ -12,3 +12,7 @@ Rasa_based/actions/__pycache__/actions.cpython-310.pyc
 Rasa_based/actions/__pycache__/actions.cpython-310.pyc
 Rasa_based/.env
 Rasa_based/logs/
+.pylintrc
+.flake8
+flake8_report.txt
+pylint_report.txt

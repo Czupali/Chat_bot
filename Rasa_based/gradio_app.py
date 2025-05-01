@@ -94,14 +94,20 @@ def chat_with_rasa(message, chatbot, state):
     return chatbot, new_state, ""  # Uzenetmezo torlese
 
 
-def process_pdf_upload(pdf_file):
-    """PDF fajl feltoltese es szoveg kinyerese."""
-    if pdf_file is None:
-        logger.warning("No PDF file uploaded.")
-        return "Kérlek, tölts fel egy PDF fájlt."
-    result = extract_pdf_text(pdf_file)
-    logging.info(f"PDF processing result: {result}")
-    return result
+def upload_pdf(pdf_file):
+    if pdf_file:
+        pdf_path = pdf_file.name if hasattr(pdf_file, 'name') else pdf_file
+        logger.info(f"PDF uploaded: {pdf_path}")
+        # Küldés a Rasa-nak a slot beállításához
+        response = requests.post(
+            RASA_URL,
+            json={"sender": "user", "message": f"/set_pdf_path{{'pdf_path': '{pdf_path}'}}"},
+            timeout=5
+        )
+        if response.status_code == 200:
+            return f"PDF uploaded successfully: {pdf_path}", pdf_path
+        return "Error sending PDF path to Rasa.", None
+    return "No PDF uploaded.", None
 
 
 with gr.Blocks(title="AI Chatbot") as demo:
@@ -113,15 +119,15 @@ with gr.Blocks(title="AI Chatbot") as demo:
     chatbot = gr.Chatbot()
     msg = gr.Textbox(label="Your message", placeholder="Type your message here...")
     clear_btn = gr.Button("Clear")
-    pdf_upload = gr.File(label="Upload PDF", file_types=[".pdf"])  # PDF feltolto
-    process_pdf_btn = gr.Button("Process PDF")  # Gomb
-    pdf_output = gr.Textbox(label="PDF Processing Result")  # Kimenet
+    pdf_upload = gr.File(label="Upload PDF")
+    pdf_output = gr.Textbox(label="PDF Upload Status")
+    pdf_upload.upload(upload_pdf, inputs=pdf_upload, outputs=pdf_output)
 
     state = gr.State([])
 
     msg.submit(chat_with_rasa, [msg, chatbot, state], [chatbot, state, msg])
     clear_btn.click(lambda: ([], []), None, [chatbot, state])
-    process_pdf_btn.click(process_pdf_upload, pdf_upload, pdf_output)
+    # process_pdf_btn.click(process_pdf_upload, pdf_upload, pdf_output)
 
 if __name__ == "__main__":
     if not check_rasa_server():
