@@ -139,14 +139,79 @@ Chatbot: You're asking about 'Can you explain the meaning of life?'. Let me try 
 
 (Teszteli az ask_topic intentet, nincs topic entitás, call_llm statikus válasz.)
 
+
+
+Felhasználó: I want to upload a PDF to talk about it.
+
+Chatbot: Sure, please upload the PDF using the Gradio interface, and I'll set it up for you!
+
+(Teszteli a felhasználó szándékát a PDF feltöltésre, de ez egy informális üzenet, így a Rasa valószínűleg az `utter_fallback` választ használja, mivel nincs konkrét intent ehhez az üzenethez. A Gradio felületen kell feltölteni a PDF-et.)
+
+(Felhasználó feltölt egy PDF-et a Gradio felületen, pl. "AI_article.pdf". A Gradio elküldi az elérési utat a Rasa-nak: "/set_pdf_path{'pdf_path': 'C:/Chat_bot/Rasa_based/AI_article.pdf'}")
+
+Chatbot: PDF path set: C:/Chat_bot/Rasa_based/AI_article.pdf
+
+(Teszteli a set_pdf_path intentet és az ActionSetPDFPath akciót, amely beállítja a pdf_path slot-ot.)
+
+Felhasználó: What is in the PDF?
+
+Chatbot: Here is a summary of the PDF content: [első 200 karakter a PDF szövegéből, pl. "Artificial Intelligence (AI) is a rapidly evolving field that focuses on creating systems capable of performing tasks that typically require human intelligence, such as learning and problem-solving..."]
+
+(Teszteli az ask_pdf_content intentet és az ActionHandlePDFQuestion akciót, amely visszaadja a PDF szöveg első 200 karakterét az utter_pdf_summary válaszon keresztül.)
+
+Felhasználó: What does the PDF say about machine learning?
+
+Chatbot: Based on the PDF, here is the answer: [kulcsszavas keresés eredménye, pl. "Machine learning is a subset of AI that enables systems to learn from data. It is widely used in predictive modeling and data analysis."]
+
+(Teszteli az ask_pdf_content intentet és az ActionHandlePDFQuestion akciót, amely a "machine learning" kulcsszó alapján keres a PDF szövegében, és visszaadja a releváns szövegrészleteket az utter_pdf_answer válaszon keresztül.)
+
+Felhasználó: Can you summarize the PDF content?
+
+Chatbot: Here is a summary of the PDF content: [első 200 karakter, pl. "Artificial Intelligence (AI) is a rapidly evolving field that focuses on creating systems capable of performing tasks that typically require human intelligence, such as learning and problem-solving..."]
+
+(Teszteli az ask_pdf_content intentet és az ActionHandlePDFQuestion akciót, amely ugyanazt a 200 karakteres összefoglalót adja vissza, mivel a jelenlegi kód nem támogat valódi szövegösszegzést.)
+
+Felhasználó: Tell me about neural networks in the PDF.
+
+Chatbot: Based on the PDF, here is the answer: [kulcsszavas keresés eredménye, pl. "Neural networks are computational models inspired by the human brain, used extensively in deep learning applications."]
+
+(Teszteli az ask_pdf_content intentet, a "neural networks" kulcsszóval, és az ActionHandlePDFQuestion akciót, amely releváns szövegrészleteket ad vissza.)
+
+Felhasználó: What does the PDF say about a nonexistent topic?
+
+Chatbot: Based on the PDF, here is the answer: No relevant information found in the PDF.
+
+(Teszteli az ask_pdf_content intentet egy olyan kulcsszóval, amely nem található a PDF-ben, így az ActionHandlePDFQuestion üres találati listát ad vissza, és az alapértelmezett üzenetet küldi.)
+
+Felhasználó: I forgot to upload a PDF. What’s in the PDF?
+
+Chatbot: No PDF has been uploaded yet. Please upload a PDF first.
+
+(Teszteli az ask_pdf_content intentet, amikor a pdf_path slot üres, így az ActionHandlePDFQuestion az utter_no_pdf választ használja.)
+
+Felhasználó: (Feltölt egy érvénytelen fájlt, pl. nem PDF formátumú fájlt)
+
+Chatbot: Error: The file is not a valid PDF: C:/Chat_bot/Rasa_based/invalid_file.txt
+
+(Teszteli a set_pdf_path intentet és az ActionSetPDFPath akciót, de a process_pdf.py észleli, hogy a fájl nem PDF, és hibát naplóz: [PDF] ERROR: Not a valid PDF file.)
+
+Felhasználó: (Feltölt egy nem létező PDF-et, pl. "C:/Chat_bot/Rasa_based/nonexistent.pdf")
+
+Chatbot: Invalid PDF path provided.
+
+(Teszteli a set_pdf_path intentet, de az ActionSetPDFPath észleli, hogy a fájl nem létezik, és hibát jelez.)
+
 Felhasználó: Alright, I gotta go. Bye!
 
 Chatbot: Bye
 
 (Teszteli a goodbye intentet és az utter_goodbye választ.)
 
-Használd a korábbi példabeszélgetést (pl. "What is artificial intelligence?", "Tell me a joke!", "What is Java?").
+Használd a korábbi példabeszélgetést (pl. "What is artificial intelligence?", "Tell me a joke!", "What is Java?") és az új PDF-specifikus beszélgetéseket.
 Tesztelj hibákat:
-Üres üzenet: Küldj üres szöveget → Naplózódik [Gradio] WARNING: Empty message received..
-Rasa szerver leállítva: Kapcsold ki a Rasa szervert, és küldj üzenetet → Naplózódik [Gradio] ERROR: Connection error: Rasa server is not responding..
-Kétértelmű téma: "What is Java?" → Naplózódik [Actions] ERROR: Wikipedia DisambiguationError....
+- Üres üzenet: Küldj üres szöveget → Naplózódik [Gradio] WARNING: Empty message received.
+- Rasa szerver leállítva: Kapcsold ki a Rasa szervert, és küldj üzenetet → Naplózódik [Gradio] ERROR: Connection error: Rasa server is not responding.
+- Kétértelmű téma: "What is Java?" → Naplózódik [Actions] ERROR: Wikipedia DisambiguationError...
+- Érvénytelen PDF: Tölts fel nem PDF fájlt → Naplózódik [PDF] ERROR: Not a valid PDF file...
+- Nem létező PDF elérési út: Próbálj meg nem létező PDF-et feldolgozni → Naplózódik [Actions] ERROR: File does not exist...
+- PDF nélküli kérdés: Kérdezz a PDF-ről feltöltés nélkül → Visszaadja az utter_no_pdf választ.

@@ -108,7 +108,6 @@ nlu:
     - Explain the difference between [supervised learning](topic) and [unsupervised learning](topic)
     - What is [attention mechanism](topic) in [transformers](topic)?
     - What is [attention mechanism](topic)?
-
     - What are the applications of [AI](topic)?
     - How does [machine learning](topic) work?
     - What is the goal of [reinforcement learning](topic)?
@@ -262,6 +261,9 @@ nlu:
 
 - intent: set_pdf_path
   examples: |
+    - I want to upload a PDF
+    - Can I upload a PDF?
+    - Here's a PDF for you
     - C:/Chat_bot/test_pdf.pdf
     - C:/Chat_bot/Rasa_based/uploaded.pdf
 

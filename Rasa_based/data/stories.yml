@@ -83,3 +83,8 @@ stories:
   steps:
   - intent: set_pdf_path
   - action: action_set_pdf_path
+
+- story: Handle PDF question
+  steps:
+  - intent: ask_pdf_content
+  - action: action_handle_pdf_question

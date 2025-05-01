@@ -1,5 +1,20 @@
 version: "3.1"
 
+slots:
+  pdf_path:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: pdf_path
+        intent: set_pdf_path
+  pdf_text_path:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: pdf_text_path
+
 intents:
   - greet
   - goodbye
@@ -18,14 +33,12 @@ intents:
   - ask_whats_new
   - ask_motivation
   - ask_pdf_content
+  - set_pdf_path
 
 entities:
+  - pdf_path
+  - pdf_text_path
   - topic
-
-# slots:
-#   topics:
-#     type: list
-#     influence_conversation: false
 
 responses:
   utter_greet:
@@ -95,8 +108,10 @@ responses:
 
   utter_pdf_summary:
       - text: "Here is a summary of the PDF content: {pdf_summary}"
+
   utter_pdf_answer:
       - text: "Based on the PDF, here is the answer: {pdf_answer}"
+
   utter_no_pdf:
       - text: "No PDF has been uploaded yet. Please upload a PDF first."
 
@@ -105,6 +120,8 @@ responses:
 
 actions:
   - action_topic_handler
+  - action_set_pdf_path
+  - action_handle_pdf_question
 
 session_config:
   session_expiration_time: 60

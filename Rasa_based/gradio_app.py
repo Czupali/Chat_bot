@@ -6,18 +6,21 @@ import os
 from dotenv import load_dotenv
 from process_pdf import extract_pdf_text
 
+
 # Kornyezeti valtozok betoltes
 load_dotenv()
 
 # RASA_URL ellenorzes
 RASA_URL = os.getenv("RASA_URL", "http://localhost:5005/webhooks/rest/webhook")
 if not os.getenv("RASA_URL"):
-    print("Warning: RASA_URL not set in .env. Using default: http://localhost:5005/webhooks/rest/webhook")
+    print("Warning: RASA_URL not set in .env. "
+          "Using default: http://localhost:5005/webhooks/rest/webhook")
 
 # SESSION_LOG_PATH beloadolas
 SESSION_LOG_PATH = os.getenv("SESSION_LOG_PATH")
 if not SESSION_LOG_PATH:
-    print("Error: SESSION_LOG_PATH not set in .env. Please ensure the action server initializes it.")
+    print("Error: SESSION_LOG_PATH not set in .env. "
+          "Please ensure the action server initializes it.")
 
 
 # logolas
@@ -35,17 +38,17 @@ logger = logging.getLogger(__name__)
 print("*" * 10 + "Mukodik a log" + "SESSION_LOG_PATH: " + SESSION_LOG_PATH)
 
 logger.info("Successfully loaded .env file")
-logger.info(f"Gradio app started – session log: {SESSION_LOG_PATH}")
+logger.info("Gradio app started – session log: %s", SESSION_LOG_PATH)
 
 
 def check_rasa_server():
     """Ellenorzi, hogy a Rasa szerver elerheto-e."""
     try:
-        response = requests.get(RASA_URL.replace("/webhooks/rest/webhook", ""), timeout=2)
+        response = requests.get(RASA_URL.replace("/webhooks/rest/webhook", ""), timeout=30)
         logger.info("Rasa server is reachable.")
         return response.status_code == 200
     except requests.RequestException as e:
-        logger.error(f"Failed to connect to Rasa server: {e}")
+        logger.error("Failed to connect to Rasa server: %s", e)
         return False
 
 
@@ -55,11 +58,11 @@ def chat_with_rasa(message, chatbot, state):
         logger.warning("Empty message received.")
         return chatbot, state, "⚠️ Kérlek, írj üzenetet."
 
-    logger.info(f"User message: {message}")
+    logger.info("User message: %s", message)
 
     # payload = {"sender": "user", "message": message}
     try:
-        response = requests.post(RASA_URL, json={"sender": "user", "message": message}, timeout=5)
+        response = requests.post(RASA_URL, json={"sender": "user", "message": message}, timeout=30)
         response.raise_for_status()
         data = response.json()
         if not data:
@@ -74,7 +77,7 @@ def chat_with_rasa(message, chatbot, state):
                     bot_reply += f"![Image]({item['image']})\n"
             bot_reply = bot_reply.strip() or "⚠️ Nincs érvényes válasz a chatbottól."
 
-            logger.info(f"Rasa response: {bot_reply}")
+            logger.info("Rasa response: %s", bot_reply)
 
     except requests.ConnectionError:
         logger.error("Connection error: Rasa server is not responding.")
@@ -83,10 +86,10 @@ def chat_with_rasa(message, chatbot, state):
         logger.error("Timeout error: Rasa server took too long to respond.")
         bot_reply = "⚠️ The chatbot took too long to respond. Try again later."
     except requests.HTTPError as e:
-        logger.error(f"HTTP error: {e}")
+        logger.error("HTTP error: %s", e)
         bot_reply = f"⚠️ HTTP Error: {e}"
     except requests.RequestException as e:
-        logger.error(f"Request error: {e}")
+        logger.error("Request error: %s", e)
         bot_reply = f"⚠️ Error: {e}"
 
     chatbot.append((message, bot_reply))
@@ -97,11 +100,12 @@ def chat_with_rasa(message, chatbot, state):
 def upload_pdf(pdf_file):
     if pdf_file:
         pdf_path = pdf_file.name if hasattr(pdf_file, 'name') else pdf_file
-        logger.info(f"PDF uploaded: {pdf_path}")
-        # Küldés a Rasa-nak a slot beállításához
+        logger.info("PDF uploaded: %s", pdf_path)
+        # # Helyes JSON formátumú üzenet
+        # message = f'/set_pdf_path{json.dumps({"pdf_path": pdf_path})}'
         response = requests.post(
             RASA_URL,
-            json={"sender": "user", "message": f"/set_pdf_path{{'pdf_path': '{pdf_path}'}}"},
+            json={"sender": "user", "message": message},
             timeout=5
         )
         if response.status_code == 200:
@@ -131,5 +135,6 @@ with gr.Blocks(title="AI Chatbot") as demo:
 
 if __name__ == "__main__":
     if not check_rasa_server():
-        logger.warning("Rasa server is not reachable. Start it with 'rasa run --enable-api --cors \"*\" --debug'.")
+        logger.warning("Rasa server is not reachable. "
+                       "Start it with 'rasa run --enable-api --cors \"*\" --debug'.")
     demo.launch()
