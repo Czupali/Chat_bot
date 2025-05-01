@@ -3,8 +3,8 @@ import requests
 import logging
 import os
 # import datetime
-from dotenv import load_dotenv, set_key
-from process_pdf import extract_pdf_text 
+from dotenv import load_dotenv
+from process_pdf import extract_pdf_text
 
 # Kornyezeti valtozok betoltes
 load_dotenv()
@@ -27,12 +27,12 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - [Gradio] %(message)s",
     handlers=[
         logging.FileHandler(SESSION_LOG_PATH, encoding="utf-8"),
-        logging.StreamHandler() # kimenetre is
+        logging.StreamHandler()  # kimenetre is
     ]
 )
 logger = logging.getLogger(__name__)
 
-print("*"*10 + "Mukodik a log" + "SESSION_LOG_PATH: " + SESSION_LOG_PATH)
+print("*" * 10 + "Mukodik a log" + "SESSION_LOG_PATH: " + SESSION_LOG_PATH)
 
 logger.info("Successfully loaded .env file")
 logger.info(f"Gradio app started – session log: {SESSION_LOG_PATH}")
@@ -48,12 +48,13 @@ def check_rasa_server():
         logger.error(f"Failed to connect to Rasa server: {e}")
         return False
 
+
 def chat_with_rasa(message, chatbot, state):
     """Kommunikacio a Rasa szerverrel."""
     if not message.strip():
         logger.warning("Empty message received.")
         return chatbot, state, "⚠️ Kérlek, írj üzenetet."
-    
+
     logger.info(f"User message: {message}")
 
     # payload = {"sender": "user", "message": message}
@@ -72,7 +73,7 @@ def chat_with_rasa(message, chatbot, state):
                 if "image" in item:
                     bot_reply += f"![Image]({item['image']})\n"
             bot_reply = bot_reply.strip() or "⚠️ Nincs érvényes válasz a chatbottól."
-            
+
             logger.info(f"Rasa response: {bot_reply}")
 
     except requests.ConnectionError:
@@ -106,7 +107,7 @@ def process_pdf_upload(pdf_file):
 with gr.Blocks(title="AI Chatbot") as demo:
     gr.Markdown("""
         ## 🤖 AI Chatbot (Rasa + Gradio)
-        Ask me about AI, machine learning, or just chat!  
+        Ask me about AI, machine learning, or just chat!
         **Examples**: "What is AI?", "Tell me a joke!", "How are you?"
         """)
     chatbot = gr.Chatbot()
@@ -115,7 +116,7 @@ with gr.Blocks(title="AI Chatbot") as demo:
     pdf_upload = gr.File(label="Upload PDF", file_types=[".pdf"])  # PDF feltolto
     process_pdf_btn = gr.Button("Process PDF")  # Gomb
     pdf_output = gr.Textbox(label="PDF Processing Result")  # Kimenet
-    
+
     state = gr.State([])
 
     msg.submit(chat_with_rasa, [msg, chatbot, state], [chatbot, state, msg])

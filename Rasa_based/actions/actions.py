@@ -10,8 +10,6 @@ from rasa_sdk.executor import CollectingDispatcher
 from typing import Any, Text, Dict, List
 import os
 import datetime
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import torch
 import logging
 from dotenv import load_dotenv, set_key
 
@@ -34,7 +32,7 @@ if not SESSION_LOG_PATH or "{timestamp}" in SESSION_LOG_PATH:
         print(f"Failed to update .env with SESSION_LOG_PATH: {e}")
 
 
-#logolas
+# logolas
 logger = logging.getLogger("ActionLogger")
 logger.setLevel(logging.INFO)
 if not logger.handlers:  # Elkeruljuk a dupla handlerek hozzaadasat
@@ -44,17 +42,17 @@ if not logger.handlers:  # Elkeruljuk a dupla handlerek hozzaadasat
     logger.addHandler(handler)
     logger.addHandler(logging.StreamHandler())
 
-print("*"*10 + "Mukodik a log" + "SESSION_LOG_PATH: " + SESSION_LOG_PATH)
+print("*" * 10 + "Mukodik a log" + "SESSION_LOG_PATH: " + SESSION_LOG_PATH)
 
 # Szerver inditasanak naplozasa
 logger.info(f"Action server started – session log: {SESSION_LOG_PATH}")
 
 logger.info("Testing actions.py logging")
 
+
 def call_llm(question: str) -> str:
     # # Kérdés tokenizálása
     # inputs = tokenizer(question, return_tensors="pt")
-    
     # # Modell előrejelzés
     # with torch.no_grad():
     #     outputs = model.generate(**inputs, max_length=100, num_return_sequences=1, temperature=0.7)
@@ -72,19 +70,24 @@ class ActionTopicHandler(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
+
         # Összes topic entitas lekeres
         topics = [e['value'] for e in tracker.latest_message['entities'] if e['entity'] == 'topic']
         user_message = tracker.latest_message.get("text")
         logger.info(f"User message: {user_message} | Detected topics: {topics}")
 
-######### Ha egy tema sincs #########
+#
+# Ha egy tema sincs
+#
         if len(topics) == 0:
             '''
             Az egesz uzenetet atadjuk az llm-nek, majd elmentjuk egy kulon fajlba
             tanitas elotti ellenorzesre, topic kiválasztásra, akar utter letrehozasra
             '''
-            dispatcher.utter_message(text=f"You're asking about '{user_message}'. Let me try to answer based on an external source...")
+            dispatcher.utter_message(
+                text=f"You're asking about '{user_message}'. "
+                "Let me try to answer based on an external source..."
+            )
             try:
                 response = call_llm(user_message)
                 logger.info(f"LLM response: {response}")
@@ -97,8 +100,9 @@ class ActionTopicHandler(Action):
                 dispatcher.utter_message(text="An error occurred while using the AI model.")
                 logger.error(f"LLM error for user message: {user_message} | Error: {str(e)}")
 
-
-######### Ha csak egy tema van #########
+#
+# Ha csak egy tema van
+#
         elif len(topics) == 1:
             '''
             utter kereses, ha nincs wikipedia(, ha nincs llm)
@@ -109,7 +113,7 @@ class ActionTopicHandler(Action):
                 dispatcher.utter_message(text=f"Let me tell you about {topics[0]}...")
                 dispatcher.utter_message(response=utter_key)
                 logger.info(f"Utter response used: {utter_key}")
-    
+
             else:
                 try:
                     logger.info(f"Searching Wikipedia for topic: {topics[0]}")
@@ -118,16 +122,20 @@ class ActionTopicHandler(Action):
                     logger.info(f"Wikipedia summary returned for topic: {topics[0]}")
                 except wikipedia.exceptions.DisambiguationError as e:
                     dispatcher.utter_message(text="That topic is ambiguous. Could you be more specific?")
-                    logger.error(f"Wikipedia DisambiguationError for topic: {topics[0]} | User message: {user_message} | Error: {str(e)}")
+                    logger.error(f"Wikipedia DisambiguationError for topic: {topics[0]} |"
+                                 f" User message: {user_message} | Error: {str(e)}")
                 except wikipedia.exceptions.PageError:
                     dispatcher.utter_message(text="I couldn't find a Wikipedia page for that topic.")
-                    logger.error(f"Wikipedia PageError for topic: {topics[0]} | User message: {user_message} | Error: Page not found")
+                    logger.error(f"Wikipedia PageError for topic: {topics[0]}"
+                                 " | User message: {user_message} | Error: Page not found")
                 except Exception as e:
                     dispatcher.utter_message(text="An unexpected error occurred while searching Wikipedia.")
-                    logger.error(f"Wikipedia error for topic: {topics[0]} | User message: {user_message} | Error: {str(e)}")
+                    logger.error(f"Wikipedia error for topic: {topics[0]}"
+                                 f" | User message: {user_message} | Error: {str(e)}")
 
-
-######### Ha tobb tema van #########
+#
+#  Ha tobb tema van
+#
         else:
             '''
             Mivel kilottuk a 0 es 1 topic lehetoseget igy csak a tobb topic maradt.
@@ -141,7 +149,8 @@ class ActionTopicHandler(Action):
                 dispatcher.utter_message(response=utter_key)
                 logger.info(f"Utter response used: {utter_key}")
             else:
-                dispatcher.utter_message(text=f"You're asking about {joined}. Let me try to answer based on an external source...")
+                dispatcher.utter_message(text=f"You're asking about {joined}."
+                                         " Let me try to answer based on an external source...")
                 try:
                     response = call_llm(user_message)
                     logger.info(f"LLM response: {response}")
@@ -155,4 +164,3 @@ class ActionTopicHandler(Action):
                     logger.error(f"LLM error for user message: {user_message} | Error: {str(e)}")
 
         return []
-

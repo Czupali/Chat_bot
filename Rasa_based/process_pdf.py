@@ -2,11 +2,11 @@ import pdfplumber
 import os
 import logging
 from datetime import datetime
-from dotenv import load_dotenv, set_key
+from dotenv import load_dotenv
 from pdfminer.pdfparser import PDFSyntaxError
 import tempfile
 
-#kornyezeti valtozok beload
+# kornyezeti valtozok beload
 load_dotenv()
 
 # SESSION_LOG_PATH beload
@@ -29,7 +29,7 @@ logger.info(f"PDF Processing started – session log: {SESSION_LOG_PATH}")
 
 def extract_pdf_text(pdf_file, output_dir="processed_txt"):
     """Kinyeri a szoveget egy PDF-bol és elmenti egy .txt fajlba."""
-    
+
     if isinstance(pdf_file, tempfile._TemporaryFileWrapper):
         pdf_path = pdf_file.name
         logger.info(f"Processing Gradio tempfile: {pdf_path}")
@@ -45,13 +45,13 @@ def extract_pdf_text(pdf_file, output_dir="processed_txt"):
     else:
         pdf_path = pdf_file
         logger.info(f"Processing file: {pdf_path}")
-    
+
     logger.info(f"Starting PDF processing for: {pdf_path}")
 
     if not os.path.exists(pdf_path):
         logger.error(f"File does not exist: {pdf_path}")
         return f"Hiba: A fájl nem található: {pdf_path}"
-    
+
     file_size = os.path.getsize(pdf_path)
     logger.info(f"File size: {file_size} bytes")
     if file_size == 0:
@@ -65,24 +65,24 @@ def extract_pdf_text(pdf_file, output_dir="processed_txt"):
         # Generalunk egy egyedi fajlnevet az idobelyeg alapjan
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         output_file = os.path.join(output_dir, f"pdf_text_{timestamp}.txt")
-        
+
         # Szoveg kinyerese
         logger.debug(f"Extracting text from PDF: {pdf_path}")
-        
+
         with pdfplumber.open(pdf_path) as pdf:
             text = ""
             for page in pdf.pages:
                 page_text = page.extract_text()
                 text += page_text + "\n" if page_text else ""
-        
+
         # Szoveg mentese
         logger.debug(f"Saving extracted text to: {output_file}")
         with open(output_file, "w", encoding="utf-8") as f:
             f.write(text)
-        
+
         logger.info(f"PDF text extracted and saved to: {output_file}")
         return f"Szoveg kinyerve es elmentve: {output_file}"
-    
+
     except FileNotFoundError:
         logger.error(f"PDF file not found: {pdf_path}")
         return f"Hiba: A PDF fájl nem található: {pdf_path}"

@@ -1,0 +1,284 @@
+Folder PATH listing
+Volume serial number is D4A4-14B6
+C:.
+-   .gitignore
+-   Pelda_beszelgetes.txt
+-   projekt.zip
+-   README.md
+-   struktura.txt
+-   test_pdf.pdf
+-   
+L¦¦¦Rasa_based
+    -   .env
+    -   config.yml
+    -   credentials.yml
+    -   domain.yml
+    -   endpoints.yml
+    -   gradio_app.py
+    -   process_pdf.py
+    -   requirements.txt
+    -   run_all.bat
+    -   run_all.sh
+    -   stop_all.bat
+    -   stop_all.sh
+    -   
+    +¦¦¦.rasa
+    -   L¦¦¦cache
+    -       -   cache.db
+    -       -   
+    -       +¦¦¦tmp0vu9b4k6
+    -       -       featurizer.json
+    -       -       memorized_turns.json
+    -       -       
+    -       +¦¦¦tmp1h9vtmkk
+    -       -       featurizer.json
+    -       -       memorized_turns.json
+    -       -       
+    -       +¦¦¦tmp1u3_4q21
+    -       +¦¦¦tmp3a4wwtb2
+    -       -       feature_to_idx_dict.json
+    -       -       
+    -       +¦¦¦tmp3h0tn5m2
+    -       -       featurizer.json
+    -       -       rule_only_data.json
+    -       -       rule_policy.json
+    -       -       
+    -       +¦¦¦tmp57o0xeem
+    -       -       synonyms.json
+    -       -       
+    -       +¦¦¦tmp5eemj7ln
+    -       -       checkpoint
+    -       -       DIETClassifier.data_example.st
+    -       -       DIETClassifier.data_example_metadata.json
+    -       -       DIETClassifier.entity_tag_specs.json
+    -       -       DIETClassifier.index_label_id_mapping.json
+    -       -       DIETClassifier.label_data.st
+    -       -       DIETClassifier.label_data_metadata.json
+    -       -       DIETClassifier.sparse_feature_sizes.json
+    -       -       DIETClassifier.tf_model.data-00000-of-00001
+    -       -       DIETClassifier.tf_model.index
+    -       -       
+    -       +¦¦¦tmp5n4japhp
+    -       -       synonyms.json
+    -       -       
+    -       +¦¦¦tmp6fg86tjl
+    -       -       patterns.json
+    -       -       
+    -       +¦¦¦tmp6pwu2ugl
+    -       -       checkpoint
+    -       -       featurizer.json
+    -       -       ted_policy.data_example.st
+    -       -       ted_policy.data_example_metadata.json
+    -       -       ted_policy.entity_tag_specs.json
+    -       -       ted_policy.fake_features.st
+    -       -       ted_policy.fake_features_metadata.json
+    -       -       ted_policy.label_data.st
+    -       -       ted_policy.label_data_metadata.json
+    -       -       ted_policy.meta.json
+    -       -       ted_policy.priority.json
+    -       -       ted_policy.tf_model.data-00000-of-00001
+    -       -       ted_policy.tf_model.index
+    -       -       
+    -       +¦¦¦tmp78q5qmak
+    -       -       oov_words.json
+    -       -       vocabularies.json
+    -       -       
+    -       +¦¦¦tmp8hm1r4yo
+    -       -       synonyms.json
+    -       -       
+    -       +¦¦¦tmp8kvlbih4
+    -       +¦¦¦tmpaj7fskq7
+    -       -       oov_words.json
+    -       -       vocabularies.json
+    -       -       
+    -       +¦¦¦tmpbrdkc4gm
+    -       -       checkpoint
+    -       -       featurizer.json
+    -       -       unexpected_intent_policy.data_example.st
+    -       -       unexpected_intent_policy.data_example_metadata.json
+    -       -       unexpected_intent_policy.entity_tag_specs.json
+    -       -       unexpected_intent_policy.fake_features.st
+    -       -       unexpected_intent_policy.fake_features_metadata.json
+    -       -       unexpected_intent_policy.label_data.st
+    -       -       unexpected_intent_policy.label_data_metadata.json
+    -       -       unexpected_intent_policy.label_quantiles.st
+    -       -       unexpected_intent_policy.meta.json
+    -       -       unexpected_intent_policy.priority.json
+    -       -       unexpected_intent_policy.tf_model.data-00000-of-00001
+    -       -       unexpected_intent_policy.tf_model.index
+    -       -       
+    -       +¦¦¦tmpdjgsws07
+    -       +¦¦¦tmpdkxpop3f
+    -       -       oov_words.json
+    -       -       vocabularies.json
+    -       -       
+    -       +¦¦¦tmpdlcsr5dx
+    -       -       checkpoint
+    -       -       featurizer.json
+    -       -       ted_policy.data_example.st
+    -       -       ted_policy.data_example_metadata.json
+    -       -       ted_policy.entity_tag_specs.json
+    -       -       ted_policy.fake_features.st
+    -       -       ted_policy.fake_features_metadata.json
+    -       -       ted_policy.label_data.st
+    -       -       ted_policy.label_data_metadata.json
+    -       -       ted_policy.meta.json
+    -       -       ted_policy.priority.json
+    -       -       ted_policy.tf_model.data-00000-of-00001
+    -       -       ted_policy.tf_model.index
+    -       -       
+    -       +¦¦¦tmpe8jf5q7z
+    -       +¦¦¦tmphnmxdqct
+    -       +¦¦¦tmpi6g9p7h7
+    -       -       featurizer.json
+    -       -       rule_only_data.json
+    -       -       rule_policy.json
+    -       -       
+    -       +¦¦¦tmpjkhommyj
+    -       +¦¦¦tmpklljlull
+    -       -       checkpoint
+    -       -       DIETClassifier.data_example.st
+    -       -       DIETClassifier.data_example_metadata.json
+    -       -       DIETClassifier.entity_tag_specs.json
+    -       -       DIETClassifier.index_label_id_mapping.json
+    -       -       DIETClassifier.label_data.st
+    -       -       DIETClassifier.label_data_metadata.json
+    -       -       DIETClassifier.sparse_feature_sizes.json
+    -       -       DIETClassifier.tf_model.data-00000-of-00001
+    -       -       DIETClassifier.tf_model.index
+    -       -       
+    -       +¦¦¦tmpln_07wh8
+    -       +¦¦¦tmplrh0v6ew
+    -       -       patterns.json
+    -       -       
+    -       +¦¦¦tmpmlwqiem5
+    -       -       synonyms.json
+    -       -       
+    -       +¦¦¦tmpn0lp38zq
+    -       +¦¦¦tmpnydhtr6v
+    -       +¦¦¦tmpocqehoks
+    -       -       feature_to_idx_dict.json
+    -       -       
+    -       +¦¦¦tmppq8tshjg
+    -       +¦¦¦tmpq5f1x0wv
+    -       -       featurizer.json
+    -       -       rule_only_data.json
+    -       -       rule_policy.json
+    -       -       
+    -       +¦¦¦tmpr46d0fhj
+    -       -       oov_words.json
+    -       -       vocabularies.json
+    -       -       
+    -       +¦¦¦tmpr8yghth1
+    -       +¦¦¦tmpsqbc_r4b
+    -       +¦¦¦tmpudfb9wn6
+    -       -       checkpoint
+    -       -       DIETClassifier.data_example.st
+    -       -       DIETClassifier.data_example_metadata.json
+    -       -       DIETClassifier.entity_tag_specs.json
+    -       -       DIETClassifier.index_label_id_mapping.json
+    -       -       DIETClassifier.label_data.st
+    -       -       DIETClassifier.label_data_metadata.json
+    -       -       DIETClassifier.sparse_feature_sizes.json
+    -       -       DIETClassifier.tf_model.data-00000-of-00001
+    -       -       DIETClassifier.tf_model.index
+    -       -       
+    -       +¦¦¦tmpwnt8isve
+    -       -       checkpoint
+    -       -       featurizer.json
+    -       -       ted_policy.data_example.st
+    -       -       ted_policy.data_example_metadata.json
+    -       -       ted_policy.entity_tag_specs.json
+    -       -       ted_policy.fake_features.st
+    -       -       ted_policy.fake_features_metadata.json
+    -       -       ted_policy.label_data.st
+    -       -       ted_policy.label_data_metadata.json
+    -       -       ted_policy.meta.json
+    -       -       ted_policy.priority.json
+    -       -       ted_policy.tf_model.data-00000-of-00001
+    -       -       ted_policy.tf_model.index
+    -       -       
+    -       +¦¦¦tmpwx5alg2n
+    -       -       checkpoint
+    -       -       featurizer.json
+    -       -       unexpected_intent_policy.data_example.st
+    -       -       unexpected_intent_policy.data_example_metadata.json
+    -       -       unexpected_intent_policy.entity_tag_specs.json
+    -       -       unexpected_intent_policy.fake_features.st
+    -       -       unexpected_intent_policy.fake_features_metadata.json
+    -       -       unexpected_intent_policy.label_data.st
+    -       -       unexpected_intent_policy.label_data_metadata.json
+    -       -       unexpected_intent_policy.label_quantiles.st
+    -       -       unexpected_intent_policy.meta.json
+    -       -       unexpected_intent_policy.priority.json
+    -       -       unexpected_intent_policy.tf_model.data-00000-of-00001
+    -       -       unexpected_intent_policy.tf_model.index
+    -       -       
+    -       +¦¦¦tmpx0mvruur
+    -       +¦¦¦tmpx6oetg0x
+    -       -       oov_words.json
+    -       -       vocabularies.json
+    -       -       
+    -       +¦¦¦tmpxeq_mf5l
+    -       +¦¦¦tmpzzszj1ju
+    -       +¦¦¦tmp_6yffbqu
+    -       -       feature_to_idx_dict.json
+    -       -       
+    -       +¦¦¦tmp_swrvh4n
+    -       -       featurizer.json
+    -       -       memorized_turns.json
+    -       -       
+    -       L¦¦¦tmp_zh2iezg
+    -               synonyms.json
+    -               
+    +¦¦¦actions
+    -   -   actions.py
+    -   -   __init__.py
+    -   -   
+    -   L¦¦¦__pycache__
+    -           actions.cpython-310.pyc
+    -           __init__.cpython-310.pyc
+    -           
+    +¦¦¦data
+    -       nlu.yml
+    -       rules.yml
+    -       stories.yml
+    -       
+    +¦¦¦logs
+    -       session_2025-04-21_19-58-42.log
+    -       session_2025-04-21_20-16-44.log
+    -       session_2025-04-21_20-53-08.log
+    -       session_2025-04-22_01-33-11.log
+    -       session_2025-04-22_02-27-53.log
+    -       session_2025-04-22_03-04-33.log
+    -       session_2025-04-22_03-14-10.log
+    -       session_2025-04-22_03-25-38.log
+    -       session_2025-04-22_03-34-41.log
+    -       session_2025-04-22_03-45-55.log
+    -       session_2025-04-22_04-19-31.log
+    -       session_2025-04-22_11-18-08.log
+    -       session_2025-04-22_13-02-07.log
+    -       
+    +¦¦¦models
+    -       20250416-024509-teal-knife.tar.gz
+    -       20250418-202027-regional-pole.tar.gz
+    -       20250418-205003-bitter-boa.tar.gz
+    -       20250418-205303-quadratic-ray.tar.gz
+    -       20250418-212601-silly-chardonnay.tar.gz
+    -       20250418-220150-sad-font.tar.gz
+    -       20250419-010147-warm-bisector.tar.gz
+    -       20250421-184020-primary-razorbill.tar.gz
+    -       
+    +¦¦¦processed_txt
+    -       pdf_text_2025-04-22_12-40-16.txt
+    -       pdf_text_2025-04-22_12-43-47.txt
+    -       pdf_text_2025-04-22_12-47-32.txt
+    -       pdf_text_2025-04-22_13-02-58.txt
+    -       pdf_text_2025-04-22_13-06-44.txt
+    -       
+    +¦¦¦tests
+    -       test_stories.yml
+    -       
+    L¦¦¦__pycache__
+            process_pdf.cpython-310.pyc
+            
