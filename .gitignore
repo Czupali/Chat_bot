@@ -14,6 +14,4 @@ Rasa_based/.env
 Rasa_based/logs/
 .flake8
 .pylintrc
-flake8_report.txt
-pylint_report.txt
 Rasa_based/processed_txt/
