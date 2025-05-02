@@ -1,0 +1,261 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+# UJ INTENTEK – AI temaju kerdesek kulcsszavas entitassal(topic)
+
+- intent: ask_topic
+  examples: |
+    - What is [artificial intelligence](topic)?
+    - Can you explain what [AI](topic) is?
+    - Define [artificial intelligence](topic)
+    - What does [AI](topic) mean?
+    - What is the purpose of [AI](topic)?
+    - What is [reinforcement learning](topic)?
+    - Tell me about [transformers in NLP](topic)
+    - Explain [convolutional neural networks](topic)
+    - What are [generative adversarial networks](topic)?
+    - What is the difference between [supervised](topic) and [unsupervised learning](topic)?
+    - Compare [supervised learning](topic) and [unsupervised learning](topic)
+    - Explain the difference between [supervised learning](topic) and [unsupervised learning](topic)
+    - What is [attention mechanism](topic) in [transformers](topic)?
+    - What is [attention mechanism](topic)?
+    - What are the applications of [AI](topic)?
+    - How does [machine learning](topic) work?
+    - What is the goal of [reinforcement learning](topic)?
+    - Why is [deep learning](topic) important?
+    - How are [neural networks](topic) trained?
+    - What are the benefits of [transformers](topic)?
+    - Can you give an overview of [natural language processing](topic)?
+    - How does the [attention mechanism](topic) help in [transformers](topic)?
+    - What do [generative models](topic) do?
+    - Can you summarize [convolutional neural networks](topic)?
+    - What makes [GANs](topic) different from [autoencoders](topic)?
+    - Tell me how [supervised learning](topic) works
+    - Explain how [unsupervised learning](topic) is used in real life
+    - What’s the key concept behind [self-supervised learning](topic)?
+    - In what scenarios do we use [semi-supervised learning](topic)?
+    - What is [overfitting](topic) in [machine learning](topic)?
+    - How to avoid [overfitting](topic)?
+    - What is [bias](topic) in an [AI](topic) model?
+    - What is [variance](topic) in [machine learning](topic)?
+    - What's the difference between [classification](topic) and [regression](topic)?
+    - What kind of problems are solved with [clustering](topic)?
+    - How is [dimensionality reduction](topic) useful?
+    - Tell me more about [PCA](topic)
+    - How do [decision trees](topic) work?
+    - What is a [random forest](topic)?
+    - How does [gradient boosting](topic) improve predictions?
+    - What are [support vector machines](topic)?
+    - When should we use a [KNN algorithm](topic)?
+    - What is the idea behind [Bayesian networks](topic)?
+    - Explain the use of [recurrent neural networks](topic)
+    - How are [RNNs](topic) different from [LSTMs](topic)?
+    - Why do we use [LSTM](topic) in [sequence modeling](topic)?
+    - What are [transformer models](topic) used for?
+    - What makes [ChatGPT](topic) work?
+    - How do [large language models](topic) learn?
+    - How is [prompt engineering](topic) important in LLMs?
+    - What's the role of [pre-training](topic) and [fine-tuning](topic) in [LLMs](topic)?
+    - What is [zero-shot learning](topic)?
+    - Can you explain [few-shot learning](topic)?
+    - Tell me about [transfer learning](topic)
+    - What is the function of [embedding layers](topic)?
+    - How does [tokenization](topic) work in [NLP](topic)?
+
+- intent: ask_how_are_you
+  examples: |
+    - How are you?
+    - How you doing?
+    - What's up with you?
+    - How's it going?
+    - Are you okay?
+    - How are you feeling?
+    - What's your mood today?
+    - You good?
+    - How's your day going?
+    
+- intent: ask_what_are_you
+  examples: |
+    - What are you?
+    - Who are you?
+    - What kind of bot are you?
+    - What’s your deal?
+    - Are you a robot?
+    - What makes you tick?
+    - What are you made of?
+    - Tell me about yourself.
+    - What’s your identity?
+
+- intent: ask_what_can_you_do
+  examples: |
+    - What can you do for me?
+    - What can you do?
+    - What are your abilities?
+    - How can you help me?
+    - What do you offer?
+    - What’s your skill set?
+    - Can you do anything cool?
+    - What can I ask you?
+    - What are you capable of?
+
+- intent: ask_favorite
+  examples: |
+    - What's your favorite color?
+    - Do you have a favorite movie?
+    - What's your favorite food?
+    - What music do you like?
+    - What's your favorite book?
+    - Do you have a favorite hobby?
+    - What's your favorite thing to do?
+    - What’s your favorite animal?
+    - Do you like any sports?
+    - What's your favorite place?
+
+- intent: ask_joke
+  examples: |
+    - Tell me a joke!
+    - Can you make me laugh?
+    - Got any funny stories?
+    - Share a joke with me!
+    - What's a good joke?
+    - Make me smile with a joke!
+    - Do you know any jokes?
+    - Tell me something funny!
+    - Can you tell a pun?
+    - What's the funniest thing you know?
+
+- intent: ask_weather
+  examples: |
+    - How's the weather?
+    - What's the weather like today?
+    - Is it sunny out there?
+    - How’s the weather where you are?
+    - Should I bring an umbrella?
+    - Is it cold today?
+    - What's the forecast?
+    - How's the weather in your world?
+    - Is it nice outside?
+    - Tell me about the weather!
+
+- intent: ask_whats_new
+  examples: |
+    - What's new with you?
+    - What's up?
+    - Anything new going on?
+    - What’s the latest with you?
+    - Got any news?
+    - What's happening?
+    - What's the word on the street?
+    - Any updates?
+    - What's fresh in your world?
+    - What’s going on?
+
+- intent: ask_motivation
+  examples: |
+    - Can you motivate me?
+    - Give me a pep talk!
+    - I need some inspiration!
+    - Cheer me up!
+    - Can you give me a boost?
+    - Tell me something inspiring!
+    - I’m feeling down, help me out!
+    - Motivate me to keep going!
+    - Can you encourage me?
+    - Give me some positive vibes!
+
+synonyms:
+  - AI: artificial intelligence
+  - GANs: generative adversarial networks
+  - CNNs: convolutional neural networks
+  - RNNs: recurrent neural networks
+  - LLMs: large language models
+

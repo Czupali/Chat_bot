@@ -1,0 +1,38 @@
+Python file-ok:
+C:\Chat_bot\actions\actions.py
+C:\Chat_bot\config\config_manager.py
+C:\Chat_bot\src\chatbot.py
+C:\Chat_bot\src\gradio_app.py
+C:\Chat_bot\src\logger_setup.py
+C:\Chat_bot\src\process_pdf.py
+
+lint:
+pylint C:\Chat_bot\actions\actions.py C:\Chat_bot\config\config_manager.py C:\Chat_bot\src\chatbot.py C:\Chat_bot\src\gradio_app.py C:\Chat_bot\src\logger_setup.py C:\Chat_bot\src\process_pdf.py > pylint_report.txt
+flake8 C:\Chat_bot\actions\actions.py C:\Chat_bot\config\config_manager.py C:\Chat_bot\src\chatbot.py C:\Chat_bot\src\gradio_app.py C:\Chat_bot\src\logger_setup.py C:\Chat_bot\src\process_pdf.py > flake8_report.txt
+
+train:
+	rasa train --config config/config.yml --domain config/domain.yml --endpoints config/endpoints.yml --data data/nlu.yml data/stories.yml data/rules.yml --out models
+    Error:
+        C:\Users\czupp_0buej30\anaconda3\envs\chat_bot\lib\site-packages\rasa\shared\utils\io.py:100: UserWarning: The utterance 'utter_no_topic' is not used in any story or rule.     
+        C:\Users\czupp_0buej30\anaconda3\envs\chat_bot\lib\site-packages\rasa\shared\utils\io.py:100: UserWarning: The utterance 'utter_fallback' is not used in any story or rule.
+        C:\Users\czupp_0buej30\anaconda3\envs\chat_bot\lib\site-packages\rasa\shared\utils\io.py:100: UserWarning: Issue found while processing 'C:\Chat_bot\data\nlu.yml': The item 'ask_topic' contains an example that doesn't start with a '-' symbol:
+        This training example will be skipped.
+        More info at https://rasa.com/docs/rasa/training-data-format
+
+
+run:
+    rasa run --enable-api --cors "*" --debug --endpoints config/endpoints.yml
+
+    rasa run actions --debug
+
+    Nem tudom mi a franc történt, de a csomagokat nem találták meg egymásnak. 
+    Töröltem egy cache-t meg lefuttattam ezt
+    $env:PYTHONPATH = "C:\Chat_bot"
+    meg a .env-be betettem
+    PYTHONPATH = "C:\Chat_bot"
+    aztán most legalább a gradio fut
+
+    python gradio_app.py
+
+clean:
+    

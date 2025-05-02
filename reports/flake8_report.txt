@@ -1,0 +1,1 @@
+[1m*.py[m[36m:[m0[36m:[m1[36m:[m [1m[31mE902[m OSError: [Errno 22] Invalid argument: '*.py'

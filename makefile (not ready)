@@ -1,0 +1,67 @@
+# Makefile for Rasa chatbot and document processing
+# Usage: make <target>
+
+# ====== Variables ======
+PYTHON = python
+RASA = rasa
+CONFIG_DIR = config
+SRC_DIR = src
+
+# ====== Phony target ======
+.PHONY: all help train rasa_run run_gradio actions clean lint install run_all process_pdf test
+# all install run_all test
+
+# ====== Help target ======
+help:
+	@echo "Használat: make <target>"
+	@echo ""
+	@echo "Elérhető targetek:"
+	@echo "  help       - Ez a súgó üzenet"
+#	@echo "  install    – Virtuális környezet és függőségek telepítése"
+	@echo "  lint       - Kódelemzés pylint és flake8 segítségével"
+#	@echo "  test       – Tesztek futtatása"
+	@echo "  train      - Rasa modell betanítása"
+	@echo "  run_rasa   - Rasa szerver indítása API-val"
+	@echo "  run_gradio - Gradio UI indítása"
+	@echo "  actions    - Akciószerver indítása"
+	@echo "  clean      - Build fájlok és cache törlése"
+#	@echo "  run_all    - Összes feladat futtatása (tisztítás, telepítés, tanítás)"
+	@echo ""
+
+# # ====== Default target ======
+# all: train run_rasa run_gradio
+
+# ====== Run code quality checks (flake8 and pylint) ======
+lint:
+	flake8 $(SRC_DIR) $(CONFIG_DIR) actions *.py --output-file reports/flake8_report.txt
+	pylint $(SRC_DIR) $(CONFIG_DIR) actions *.py --output-file reports/pylint_report.txt
+
+# ====== Run tests ======
+# test:
+# 	$(RASA) test --stories data/test_stories.yml --out tests/results
+
+# ====== Train the Rasa model ======
+train:
+	$(RASA) train --config $(CONFIG_DIR)/config.yml --domain $(CONFIG_DIR)/domain.yml --endpoints $(CONFIG_DIR)/endpoints.yml \
+		--data data/nlu.yml data/stories.yml data/rules.yml \
+		--out models
+
+# ====== Run the Rasa server with API ======
+run_rasa:
+	$(RASA) run --enable-api --cors "*" --debug
+
+# ====== Run the Gradio UI ======
+run_gradio:
+	$(PYTHON) $(SRC_DIR)/gradio_app.py
+
+# ====== Run the Rasa action server ======
+actions:
+	$(RASA) run actions --debug
+
+# ====== Clean temporary files ======
+clean:
+    del /q .rasa\cache\* $(SRC_DIR)\__pycache__\*.pyc __pycache__\*.pyc *.pyc 2>nul
+    rmdir /s /q .rasa\cache $(SRC_DIR)\__pycache__ __pycache__ 2>nul
+
+# # ====== Run all tasks sequentially ======
+# run_all: clean install lint train process_pdf

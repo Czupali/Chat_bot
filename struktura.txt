@@ -1,0 +1,476 @@
+Folder PATH listing
+Volume serial number is D4A4-14B6
+C:.
+-   .flake8
+-   .gitignore
+-   .pylintrc
+-   flake8_report.txt
+-   makefile (not ready)
+-   pylint_report.txt
+-   README.md
+-   requirements.txt
+-   struktura.txt
+-   terminal commands.txt
+-   
++¦¦¦.rasa
+-   L¦¦¦cache
+-       -   cache.db
+-       -   
+-       +¦¦¦tmp0vu9b4k6
+-       -       featurizer.json
+-       -       memorized_turns.json
+-       -       
+-       +¦¦¦tmp1h9vtmkk
+-       -       featurizer.json
+-       -       memorized_turns.json
+-       -       
+-       +¦¦¦tmp1u3_4q21
+-       +¦¦¦tmp2378r41q
+-       -       synonyms.json
+-       -       
+-       +¦¦¦tmp2j1xp3rt
+-       -       checkpoint
+-       -       DIETClassifier.data_example.st
+-       -       DIETClassifier.data_example_metadata.json
+-       -       DIETClassifier.entity_tag_specs.json
+-       -       DIETClassifier.index_label_id_mapping.json
+-       -       DIETClassifier.label_data.st
+-       -       DIETClassifier.label_data_metadata.json
+-       -       DIETClassifier.sparse_feature_sizes.json
+-       -       DIETClassifier.tf_model.data-00000-of-00001
+-       -       DIETClassifier.tf_model.index
+-       -       
+-       +¦¦¦tmp2ljrwt8n
+-       -       checkpoint
+-       -       featurizer.json
+-       -       ted_policy.data_example.st
+-       -       ted_policy.data_example_metadata.json
+-       -       ted_policy.entity_tag_specs.json
+-       -       ted_policy.fake_features.st
+-       -       ted_policy.fake_features_metadata.json
+-       -       ted_policy.label_data.st
+-       -       ted_policy.label_data_metadata.json
+-       -       ted_policy.meta.json
+-       -       ted_policy.priority.json
+-       -       ted_policy.tf_model.data-00000-of-00001
+-       -       ted_policy.tf_model.index
+-       -       
+-       +¦¦¦tmp2o3zivwt
+-       -       featurizer.json
+-       -       rule_only_data.json
+-       -       rule_policy.json
+-       -       
+-       +¦¦¦tmp3a4wwtb2
+-       -       feature_to_idx_dict.json
+-       -       
+-       +¦¦¦tmp3h0tn5m2
+-       -       featurizer.json
+-       -       rule_only_data.json
+-       -       rule_policy.json
+-       -       
+-       +¦¦¦tmp57o0xeem
+-       -       synonyms.json
+-       -       
+-       +¦¦¦tmp58fnajri
+-       -       feature_to_idx_dict.json
+-       -       
+-       +¦¦¦tmp5eemj7ln
+-       -       checkpoint
+-       -       DIETClassifier.data_example.st
+-       -       DIETClassifier.data_example_metadata.json
+-       -       DIETClassifier.entity_tag_specs.json
+-       -       DIETClassifier.index_label_id_mapping.json
+-       -       DIETClassifier.label_data.st
+-       -       DIETClassifier.label_data_metadata.json
+-       -       DIETClassifier.sparse_feature_sizes.json
+-       -       DIETClassifier.tf_model.data-00000-of-00001
+-       -       DIETClassifier.tf_model.index
+-       -       
+-       +¦¦¦tmp5n4japhp
+-       -       synonyms.json
+-       -       
+-       +¦¦¦tmp6fg86tjl
+-       -       patterns.json
+-       -       
+-       +¦¦¦tmp6pwu2ugl
+-       -       checkpoint
+-       -       featurizer.json
+-       -       ted_policy.data_example.st
+-       -       ted_policy.data_example_metadata.json
+-       -       ted_policy.entity_tag_specs.json
+-       -       ted_policy.fake_features.st
+-       -       ted_policy.fake_features_metadata.json
+-       -       ted_policy.label_data.st
+-       -       ted_policy.label_data_metadata.json
+-       -       ted_policy.meta.json
+-       -       ted_policy.priority.json
+-       -       ted_policy.tf_model.data-00000-of-00001
+-       -       ted_policy.tf_model.index
+-       -       
+-       +¦¦¦tmp78q5qmak
+-       -       oov_words.json
+-       -       vocabularies.json
+-       -       
+-       +¦¦¦tmp848hqkrf
+-       -       oov_words.json
+-       -       vocabularies.json
+-       -       
+-       +¦¦¦tmp8hm1r4yo
+-       -       synonyms.json
+-       -       
+-       +¦¦¦tmp8kvlbih4
+-       +¦¦¦tmpaj7fskq7
+-       -       oov_words.json
+-       -       vocabularies.json
+-       -       
+-       +¦¦¦tmpbrdkc4gm
+-       -       checkpoint
+-       -       featurizer.json
+-       -       unexpected_intent_policy.data_example.st
+-       -       unexpected_intent_policy.data_example_metadata.json
+-       -       unexpected_intent_policy.entity_tag_specs.json
+-       -       unexpected_intent_policy.fake_features.st
+-       -       unexpected_intent_policy.fake_features_metadata.json
+-       -       unexpected_intent_policy.label_data.st
+-       -       unexpected_intent_policy.label_data_metadata.json
+-       -       unexpected_intent_policy.label_quantiles.st
+-       -       unexpected_intent_policy.meta.json
+-       -       unexpected_intent_policy.priority.json
+-       -       unexpected_intent_policy.tf_model.data-00000-of-00001
+-       -       unexpected_intent_policy.tf_model.index
+-       -       
+-       +¦¦¦tmpc6cdqqsl
+-       -       featurizer.json
+-       -       rule_only_data.json
+-       -       rule_policy.json
+-       -       
+-       +¦¦¦tmpc6_l1fe3
+-       -       feature_to_idx_dict.json
+-       -       
+-       +¦¦¦tmpcbujkni2
+-       -       featurizer.json
+-       -       memorized_turns.json
+-       -       
+-       +¦¦¦tmpdb9nr1gj
+-       -       featurizer.json
+-       -       memorized_turns.json
+-       -       
+-       +¦¦¦tmpdjgsws07
+-       +¦¦¦tmpdkxpop3f
+-       -       oov_words.json
+-       -       vocabularies.json
+-       -       
+-       +¦¦¦tmpdlcsr5dx
+-       -       checkpoint
+-       -       featurizer.json
+-       -       ted_policy.data_example.st
+-       -       ted_policy.data_example_metadata.json
+-       -       ted_policy.entity_tag_specs.json
+-       -       ted_policy.fake_features.st
+-       -       ted_policy.fake_features_metadata.json
+-       -       ted_policy.label_data.st
+-       -       ted_policy.label_data_metadata.json
+-       -       ted_policy.meta.json
+-       -       ted_policy.priority.json
+-       -       ted_policy.tf_model.data-00000-of-00001
+-       -       ted_policy.tf_model.index
+-       -       
+-       +¦¦¦tmpe8jf5q7z
+-       +¦¦¦tmpfstj00wv
+-       -       checkpoint
+-       -       DIETClassifier.data_example.st
+-       -       DIETClassifier.data_example_metadata.json
+-       -       DIETClassifier.entity_tag_specs.json
+-       -       DIETClassifier.index_label_id_mapping.json
+-       -       DIETClassifier.label_data.st
+-       -       DIETClassifier.label_data_metadata.json
+-       -       DIETClassifier.sparse_feature_sizes.json
+-       -       DIETClassifier.tf_model.data-00000-of-00001
+-       -       DIETClassifier.tf_model.index
+-       -       
+-       +¦¦¦tmphnmxdqct
+-       +¦¦¦tmpi6g9p7h7
+-       -       featurizer.json
+-       -       rule_only_data.json
+-       -       rule_policy.json
+-       -       
+-       +¦¦¦tmpj66x6clw
+-       -       featurizer.json
+-       -       memorized_turns.json
+-       -       
+-       +¦¦¦tmpjkhommyj
+-       +¦¦¦tmpklljlull
+-       -       checkpoint
+-       -       DIETClassifier.data_example.st
+-       -       DIETClassifier.data_example_metadata.json
+-       -       DIETClassifier.entity_tag_specs.json
+-       -       DIETClassifier.index_label_id_mapping.json
+-       -       DIETClassifier.label_data.st
+-       -       DIETClassifier.label_data_metadata.json
+-       -       DIETClassifier.sparse_feature_sizes.json
+-       -       DIETClassifier.tf_model.data-00000-of-00001
+-       -       DIETClassifier.tf_model.index
+-       -       
+-       +¦¦¦tmpln_07wh8
+-       +¦¦¦tmplrh0v6ew
+-       -       patterns.json
+-       -       
+-       +¦¦¦tmpmlwqiem5
+-       -       synonyms.json
+-       -       
+-       +¦¦¦tmpn0lp38zq
+-       +¦¦¦tmpnydhtr6v
+-       +¦¦¦tmpocqehoks
+-       -       feature_to_idx_dict.json
+-       -       
+-       +¦¦¦tmppq8tshjg
+-       +¦¦¦tmpps66poz_
+-       -       checkpoint
+-       -       featurizer.json
+-       -       ted_policy.data_example.st
+-       -       ted_policy.data_example_metadata.json
+-       -       ted_policy.entity_tag_specs.json
+-       -       ted_policy.fake_features.st
+-       -       ted_policy.fake_features_metadata.json
+-       -       ted_policy.label_data.st
+-       -       ted_policy.label_data_metadata.json
+-       -       ted_policy.meta.json
+-       -       ted_policy.priority.json
+-       -       ted_policy.tf_model.data-00000-of-00001
+-       -       ted_policy.tf_model.index
+-       -       
+-       +¦¦¦tmpq5f1x0wv
+-       -       featurizer.json
+-       -       rule_only_data.json
+-       -       rule_policy.json
+-       -       
+-       +¦¦¦tmpq9omf4v1
+-       -       oov_words.json
+-       -       vocabularies.json
+-       -       
+-       +¦¦¦tmpr46d0fhj
+-       -       oov_words.json
+-       -       vocabularies.json
+-       -       
+-       +¦¦¦tmpr8yghth1
+-       +¦¦¦tmprio_ph_x
+-       -       synonyms.json
+-       -       
+-       +¦¦¦tmprk6gn0n6
+-       -       synonyms.json
+-       -       
+-       +¦¦¦tmprt23j8m7
+-       -       feature_to_idx_dict.json
+-       -       
+-       +¦¦¦tmpry6e4pji
+-       -       oov_words.json
+-       -       vocabularies.json
+-       -       
+-       +¦¦¦tmpsqbc_r4b
+-       +¦¦¦tmptcvmfhf4
+-       -       synonyms.json
+-       -       
+-       +¦¦¦tmptq4i1wc5
+-       -       checkpoint
+-       -       DIETClassifier.data_example.st
+-       -       DIETClassifier.data_example_metadata.json
+-       -       DIETClassifier.entity_tag_specs.json
+-       -       DIETClassifier.index_label_id_mapping.json
+-       -       DIETClassifier.label_data.st
+-       -       DIETClassifier.label_data_metadata.json
+-       -       DIETClassifier.sparse_feature_sizes.json
+-       -       DIETClassifier.tf_model.data-00000-of-00001
+-       -       DIETClassifier.tf_model.index
+-       -       
+-       +¦¦¦tmptw3ytkx9
+-       -       featurizer.json
+-       -       rule_only_data.json
+-       -       rule_policy.json
+-       -       
+-       +¦¦¦tmpudfb9wn6
+-       -       checkpoint
+-       -       DIETClassifier.data_example.st
+-       -       DIETClassifier.data_example_metadata.json
+-       -       DIETClassifier.entity_tag_specs.json
+-       -       DIETClassifier.index_label_id_mapping.json
+-       -       DIETClassifier.label_data.st
+-       -       DIETClassifier.label_data_metadata.json
+-       -       DIETClassifier.sparse_feature_sizes.json
+-       -       DIETClassifier.tf_model.data-00000-of-00001
+-       -       DIETClassifier.tf_model.index
+-       -       
+-       +¦¦¦tmpv_6bk6rg
+-       -       checkpoint
+-       -       featurizer.json
+-       -       ted_policy.data_example.st
+-       -       ted_policy.data_example_metadata.json
+-       -       ted_policy.entity_tag_specs.json
+-       -       ted_policy.fake_features.st
+-       -       ted_policy.fake_features_metadata.json
+-       -       ted_policy.label_data.st
+-       -       ted_policy.label_data_metadata.json
+-       -       ted_policy.meta.json
+-       -       ted_policy.priority.json
+-       -       ted_policy.tf_model.data-00000-of-00001
+-       -       ted_policy.tf_model.index
+-       -       
+-       +¦¦¦tmpwnt8isve
+-       -       checkpoint
+-       -       featurizer.json
+-       -       ted_policy.data_example.st
+-       -       ted_policy.data_example_metadata.json
+-       -       ted_policy.entity_tag_specs.json
+-       -       ted_policy.fake_features.st
+-       -       ted_policy.fake_features_metadata.json
+-       -       ted_policy.label_data.st
+-       -       ted_policy.label_data_metadata.json
+-       -       ted_policy.meta.json
+-       -       ted_policy.priority.json
+-       -       ted_policy.tf_model.data-00000-of-00001
+-       -       ted_policy.tf_model.index
+-       -       
+-       +¦¦¦tmpwx5alg2n
+-       -       checkpoint
+-       -       featurizer.json
+-       -       unexpected_intent_policy.data_example.st
+-       -       unexpected_intent_policy.data_example_metadata.json
+-       -       unexpected_intent_policy.entity_tag_specs.json
+-       -       unexpected_intent_policy.fake_features.st
+-       -       unexpected_intent_policy.fake_features_metadata.json
+-       -       unexpected_intent_policy.label_data.st
+-       -       unexpected_intent_policy.label_data_metadata.json
+-       -       unexpected_intent_policy.label_quantiles.st
+-       -       unexpected_intent_policy.meta.json
+-       -       unexpected_intent_policy.priority.json
+-       -       unexpected_intent_policy.tf_model.data-00000-of-00001
+-       -       unexpected_intent_policy.tf_model.index
+-       -       
+-       +¦¦¦tmpx0mvruur
+-       +¦¦¦tmpx6oetg0x
+-       -       oov_words.json
+-       -       vocabularies.json
+-       -       
+-       +¦¦¦tmpxeq_mf5l
+-       +¦¦¦tmpxz8bkmj8
+-       -       synonyms.json
+-       -       
+-       +¦¦¦tmpzzszj1ju
+-       +¦¦¦tmp_6yffbqu
+-       -       feature_to_idx_dict.json
+-       -       
+-       +¦¦¦tmp_swrvh4n
+-       -       featurizer.json
+-       -       memorized_turns.json
+-       -       
+-       L¦¦¦tmp_zh2iezg
+-               synonyms.json
+-               
++¦¦¦actions
+-   -   actions.py
+-   -   __init__.py
+-   -   
+-   L¦¦¦__pycache__
+-           actions.cpython-310.pyc
+-           __init__.cpython-310.pyc
+-           
++¦¦¦config
+-   -   .env
+-   -   config.yml
+-   -   config_manager.py
+-   -   credentials.yml
+-   -   domain.yml
+-   -   endpoints.yml
+-   -   __init__.py
+-   -   
+-   L¦¦¦__pycache__
+-           config_manager.cpython-310.pyc
+-           __init__.cpython-310.pyc
+-           
++¦¦¦data
+-       nlu.yml
+-       rules.yml
+-       stories.yml
+-       test_stories.yml
+-       
++¦¦¦docs
+-   +¦¦¦examples
+-   -       Pelda_beszelgetes.txt
+-   -       
+-   +¦¦¦input
+-   -       test_pdf.pdf
+-   -       
+-   L¦¦¦output
+-       L¦¦¦processed_txt
+-               pdf_text_2025-05-02_13-27-32.txt
+-               pdf_text_2025-05-02_13-55-05.txt
+-               pdf_text_2025-05-02_15-56-16.txt
+-               
++¦¦¦logs
+-       session.log
+-       session_2025-04-21_19-58-42.log
+-       session_2025-04-21_20-16-44.log
+-       session_2025-04-21_20-53-08.log
+-       session_2025-04-22_01-33-11.log
+-       session_2025-04-22_02-27-53.log
+-       session_2025-04-22_03-04-33.log
+-       session_2025-04-22_03-14-10.log
+-       session_2025-04-22_03-25-38.log
+-       session_2025-04-22_03-34-41.log
+-       session_2025-04-22_03-45-55.log
+-       session_2025-04-22_04-19-31.log
+-       session_2025-04-22_11-18-08.log
+-       session_2025-04-22_13-02-07.log
+-       session_2025-05-01_09-47-34.log
+-       session_2025-05-01_09-47-48.log
+-       session_2025-05-01_10-02-37.log
+-       session_2025-05-01_19-17-24.log
+-       session_2025-05-01_19-17-31.log
+-       session_2025-05-01_19-26-47.log
+-       session_2025-05-01_19-36-13.log
+-       session_2025-05-01_19-36-30.log
+-       
++¦¦¦models
+-       20250416-024509-teal-knife.tar.gz
+-       20250418-202027-regional-pole.tar.gz
+-       20250418-205003-bitter-boa.tar.gz
+-       20250418-205303-quadratic-ray.tar.gz
+-       20250418-212601-silly-chardonnay.tar.gz
+-       20250418-220150-sad-font.tar.gz
+-       20250419-010147-warm-bisector.tar.gz
+-       20250421-184020-primary-razorbill.tar.gz
+-       20250501-083452-sunny-pergola.tar.gz
+-       20250501-090119-gilded-pilot.tar.gz
+-       20250501-193234-wary-norm.tar.gz
+-       20250502-115257-rust-winner.tar.gz
+-       20250502-184651-cold-luminosity.tar.gz
+-       
++¦¦¦reports
+-       flake8_report.txt
+-       pylint_report.txt
+-       
++¦¦¦scripts (not used)
+-       clean.sh
+-       run_all.bat
+-       run_all.sh
+-       stop_all.bat
+-       stop_all.sh
+-       
++¦¦¦src
+-   -   chatbot.py
+-   -   gradio_app.py
+-   -   logger_setup.py
+-   -   process_pdf.py
+-   -   __init__.py
+-   -   
+-   L¦¦¦__pycache__
+-           logger_setup.cpython-310.pyc
+-           process_pdf.cpython-310.pyc
+-           __init__.cpython-310.pyc
+-           
++¦¦¦tests
+L¦¦¦__pycache__
+        chatbot.cpython-310.pyc
+        config_manager.cpython-310.pyc
+        logger_setup.cpython-310.pyc
+        process_pdf.cpython-310.pyc
+        

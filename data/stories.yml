@@ -1,0 +1,80 @@
+version: "3.1"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+- story: ask a single topic
+  steps:
+  - intent: ask_topic
+  - action: action_topic_handler
+
+- story: ask multiple topics
+  steps:
+  - intent: ask_topic
+  - action: action_topic_handler
+
+- story: ask how are you
+  steps:
+  - intent: ask_how_are_you
+  - action: utter_how_are_you
+
+- story: ask what are you
+  steps:
+  - intent: ask_what_are_you
+  - action: utter_what_are_you
+
+- story: ask what can you do
+  steps:
+  - intent: ask_what_can_you_do
+  - action: utter_what_can_you_do
+
+- story: ask favorite
+  steps:
+  - intent: ask_favorite
+  - action: utter_favorite
+
+- story: ask joke
+  steps:
+  - intent: ask_joke
+  - action: utter_joke
+
+- story: ask weather
+  steps:
+  - intent: ask_weather
+  - action: utter_weather
+
+- story: ask what's new
+  steps:
+  - intent: ask_whats_new
+  - action: utter_whats_new
+
+- story: ask motivation
+  steps:
+  - intent: ask_motivation
+  - action: utter_motivation
