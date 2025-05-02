@@ -5,42 +5,36 @@
 # https://rasa.com/docs/rasa/custom-actions
 
 from typing import Any, Text, Dict, List
-import os
-import datetime
-import logging
 import wikipedia
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from dotenv import load_dotenv, set_key
-
+from config_manager import ConfigManager
+from logger_setup import LoggerSetup
+# from dotenv import load_dotenv, set_key
+# import datetime
+# import os
+# import logging
 
 # model_name = "mistralai/Mistral-7B-Instruct-v0.1"
 # tokenizer = AutoTokenizer.from_pretrained(model_name)
 # model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16)
 
-# Kornyezeti valtozok betoltese
-load_dotenv()
+config = ConfigManager()
+RASA_URL = config.get("rasa_url")
+SESSION_LOG_PATH = config.get("session_log_path")
 
-# SESSION_LOG_PATH inicial
-SESSION_LOG_PATH = os.getenv("SESSION_LOG_PATH")
-if not SESSION_LOG_PATH or "{timestamp}" in SESSION_LOG_PATH:
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    SESSION_LOG_PATH = f"C:/Chat_bot/Rasa_based/logs/session_{timestamp}.log"
-    try:
-        set_key(".env", "SESSION_LOG_PATH", SESSION_LOG_PATH)
-    except Exception as e:
-        print(f"Failed to update .env with SESSION_LOG_PATH: {e}")
+# logger = logging.getLogger("ActionLogger")
+# logger.setLevel(logging.INFO)
+# if not logger.handlers:  # Elkeruljuk a dupla handlerek hozzaadasat
+#     os.makedirs(os.path.dirname(SESSION_LOG_PATH), exist_ok=True)
+#     handler = logging.FileHandler(SESSION_LOG_PATH, encoding="utf-8")
+#     handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - [Action] %(message)s"))
+#     logger.addHandler(handler)
+#     logger.addHandler(logging.StreamHandler())
 
-
-# logolas
-logger = logging.getLogger("ActionLogger")
-logger.setLevel(logging.INFO)
-if not logger.handlers:  # Elkeruljuk a dupla handlerek hozzaadasat
-    os.makedirs(os.path.dirname(SESSION_LOG_PATH), exist_ok=True)
-    handler = logging.FileHandler(SESSION_LOG_PATH, encoding="utf-8")
-    handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - [Action] %(message)s"))
-    logger.addHandler(handler)
-    logger.addHandler(logging.StreamHandler())
+# logolas init
+logger_setup = LoggerSetup(SESSION_LOG_PATH)
+logger = logger_setup.get_logger("Action")
 
 print("*" * 10 + "Mukodik a log" + "SESSION_LOG_PATH: " + SESSION_LOG_PATH)
 

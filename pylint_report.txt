@@ -1,18 +1,8 @@
-************* Module process_pdf
-Rasa_based\process_pdf.py:33:28: W0212: Access to a protected member _TemporaryFileWrapper of a client class (protected-access)
-Rasa_based\process_pdf.py:42:15: W0718: Catching too general exception Exception (broad-exception-caught)
-Rasa_based\process_pdf.py:92:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Rasa_based\process_pdf.py:31:0: R0911: Too many return statements (8/6) (too-many-return-statements)
-************* Module gradio_app
-Rasa_based\gradio_app.py:54:28: W0621: Redefining name 'chatbot' from outer scope (line 115) (redefined-outer-name)
-Rasa_based\gradio_app.py:54:37: W0621: Redefining name 'state' from outer scope (line 122) (redefined-outer-name)
 ************* Module actions.actions
-Rasa_based\actions\actions.py:31:11: W0718: Catching too general exception Exception (broad-exception-caught)
-Rasa_based\actions\actions.py:53:13: W0613: Unused argument 'question' (unused-argument)
-Rasa_based\actions\actions.py:98:19: W0718: Catching too general exception Exception (broad-exception-caught)
-Rasa_based\actions\actions.py:132:23: W0718: Catching too general exception Exception (broad-exception-caught)
-Rasa_based\actions\actions.py:164:23: W0718: Catching too general exception Exception (broad-exception-caught)
+Rasa_based\actions\actions.py:47:13: W0613: Unused argument 'question' (unused-argument)
+************* Module process_pdf
+Rasa_based\process_pdf.py:125:16: E1101: Module 'pdfplumber' has no 'PDFException' member (no-member)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.54/10 (previous run: 9.25/10, +0.29)
+Your code has been rated at 9.79/10 (previous run: 9.16/10, +0.63)
 
