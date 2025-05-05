@@ -6,6 +6,10 @@ C:\Chat_bot\src\gradio_app.py
 C:\Chat_bot\src\logger_setup.py
 C:\Chat_bot\src\process_pdf.py
 
+test:
+    pytest --cov=src tests/ --cov-report=html
+    pytest tests/test_chatbot.py
+
 lint:
 pylint C:\Chat_bot\actions\actions.py C:\Chat_bot\config\config_manager.py C:\Chat_bot\src\chatbot.py C:\Chat_bot\src\gradio_app.py C:\Chat_bot\src\logger_setup.py C:\Chat_bot\src\process_pdf.py > pylint_report.txt
 flake8 C:\Chat_bot\actions\actions.py C:\Chat_bot\config\config_manager.py C:\Chat_bot\src\chatbot.py C:\Chat_bot\src\gradio_app.py C:\Chat_bot\src\logger_setup.py C:\Chat_bot\src\process_pdf.py > flake8_report.txt
@@ -33,6 +37,8 @@ run:
     aztán most legalább a gradio fut
 
     python gradio_app.py
+
+
 
 clean:
     
