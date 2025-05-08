@@ -62,8 +62,8 @@ class Chatbot:
             self.logger.error("Request error: %s", e)
             bot_reply = f"⚠️ Error: {e}"
 
-        # # Csevegési előzmények frissítése
-        # self.chat_history.append((message, bot_reply))
+        # Csevegési előzmények frissítése
+        self.chat_history.append((message, bot_reply))
         # return self.chat_history, bot_reply
 
         # Frissítjük a Gradio csevegési előzményeket és az állapotot

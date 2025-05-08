@@ -134,6 +134,7 @@ pypdfium2==4.30.1
 pyreadline3==3.5.4
 pyrsistent==0.20.0
 pytest==8.3.5
+pytest-asyncio==0.26.0
 pytest-cov==6.1.1
 pytest-mock==3.14.0
 python-crfsuite==0.9.11

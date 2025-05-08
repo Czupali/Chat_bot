@@ -26,15 +26,6 @@ config = ConfigManager()
 RASA_URL = config.get("rasa_url")
 SESSION_LOG_PATH = config.get("session_log_path")
 
-# logger = logging.getLogger("ActionLogger")
-# logger.setLevel(logging.INFO)
-# if not logger.handlers:  # Elkeruljuk a dupla handlerek hozzaadasat
-#     os.makedirs(os.path.dirname(SESSION_LOG_PATH), exist_ok=True)
-#     handler = logging.FileHandler(SESSION_LOG_PATH, encoding="utf-8")
-#     handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - [Action] %(message)s"))
-#     logger.addHandler(handler)
-#     logger.addHandler(logging.StreamHandler())
-
 # logolas init
 logger_setup = LoggerSetup(SESSION_LOG_PATH)
 logger = logger_setup.get_logger("Action")

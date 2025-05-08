@@ -2,22 +2,9 @@ import os
 from datetime import datetime
 import pdfplumber
 from pdfminer.pdfparser import PDFSyntaxError
-from logger_setup import LoggerSetup
+from src.logger_setup import LoggerSetup
 from config.config_manager import ConfigManager
-# import logging
-# import tempfile
-# from dotenv import load_dotenv
 
-# logger = logging.getLogger("PDFLogger")
-# logger.setLevel(logging.INFO)
-# if not logger.handlers:
-#     handler = logging.FileHandler(SESSION_LOG_PATH, encoding="utf-8")
-#     handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - [PDF] %(message)s"))
-#     logger.addHandler(handler)
-#     logger.addHandler(logging.StreamHandler())
-
-# logger.info("Successfully loaded .env file")
-# logger.info("PDF Processing started – session log: %s", SESSION_LOG_PATH)
 
 # Konfiguráció betöltése
 config = ConfigManager()
@@ -35,6 +22,8 @@ class PDFProcessor:
         self.output_dir = output_dir
         self.logger = logger_setup.get_logger("PDF")
         os.makedirs(output_dir, exist_ok=True)
+        if not os.path.exists(self.output_dir):
+            self.logger.error("Failed to create output directory: %s", output_dir)
         self.logger.info("PDFProcessor initialized with output directory: %s", output_dir)
 
     def extract_pdf_text(self, pdf_file: str) -> str:
@@ -122,10 +111,7 @@ class PDFProcessor:
         except PDFSyntaxError:
             self.logger.error("Invalid PDF format: %s", pdf_path)
             return f"Hiba: Érvénytelen PDF formátum: {pdf_path}"
-        except (pdfplumber.PDFException, OSError) as e:
-            self.logger.error("Error processing PDF %s: %s", pdf_path, str(e))
-            return f"Hiba a PDF feldolgozása közben: {str(e)}"
-        except Exception as e:
+        except (Exception, OSError) as e:
             self.logger.error("Error processing PDF %s: %s", pdf_path, str(e))
             return f"Hiba a PDF feldolgozása közben: {str(e)}"
 

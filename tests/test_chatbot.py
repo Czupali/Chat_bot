@@ -4,6 +4,7 @@ from src.chatbot import Chatbot
 from src.logger_setup import LoggerSetup
 from config.config_manager import ConfigManager
 import requests
+# import os
 
 
 class TestChatbot(unittest.TestCase):
@@ -11,7 +12,7 @@ class TestChatbot(unittest.TestCase):
         # Mockoljuk a környezeti változókat
         # os.environ["SESSION_LOG_PATH"] = "logs/test_session.log"
         # os.environ["RASA_URL"] = "http://localhost:5005/webhooks/rest/webhook"
-        
+
         # Konfiguráció inicializálása
         self.config = ConfigManager()
         self.rasa_url = self.config.get("rasa_url")
@@ -51,6 +52,36 @@ class TestChatbot(unittest.TestCase):
         self.assertEqual(result_chatbot, [(message, "Hello!\nHow can I help you?")])
         self.assertEqual(result_state, [{"user": message, "bot": "Hello!\nHow can I help you?"}])
         self.assertEqual(result_text, "")
+        self.assertEqual(self.chatbot.chat_history, [(message, "Hello!\nHow can I help you?")])
+        mock_post.assert_called_once_with(
+            self.rasa_url,
+            json={"sender": "user", "message": message},
+            timeout=5
+        )
+
+    @patch('requests.post')
+    def test_send_message_with_image(self, mock_post):
+        """Teszteli az üzenetküldést, ha a Rasa válasz tartalmaz képet."""
+        # Mockoljuk a Rasa választ képpel
+        mock_response = MagicMock()
+        mock_response.json.return_value = [
+            {"text": "Here's a picture!"},
+            {"image": "http://example.com/image.jpg"}
+        ]
+        mock_response.raise_for_status.return_value = None
+        mock_post.return_value = mock_response
+        chatbot_state = []
+        state = []
+        message = "Show me a picture!"
+        result_chatbot, result_state, result_text = self.chatbot.send_message(
+            message, chatbot_state, state
+        )
+        # Ellenőrizzük az eredményeket
+        expected_reply = "Here's a picture!\n![Image](http://example.com/image.jpg)"
+        self.assertEqual(result_chatbot, [(message, expected_reply)])
+        self.assertEqual(result_state, [{"user": message, "bot": expected_reply}])
+        self.assertEqual(result_text, "")
+        self.assertEqual(self.chatbot.chat_history, [(message, expected_reply)])
         mock_post.assert_called_once_with(
             self.rasa_url,
             json={"sender": "user", "message": message},
@@ -70,6 +101,7 @@ class TestChatbot(unittest.TestCase):
         self.assertEqual(result_chatbot, [])
         self.assertEqual(result_state, [])
         self.assertEqual(result_text, "⚠️ Kérlek, írj üzenetet.")
+        self.assertEqual(self.chatbot.chat_history, [])
 
     @patch('requests.post')
     def test_send_message_connection_error(self, mock_post):
@@ -90,9 +122,12 @@ class TestChatbot(unittest.TestCase):
         self.assertEqual(result_state, [{"user": message, "bot": "⚠️ The chatbot server is not responding."
                                          " Please check if it's running."}])
         self.assertEqual(result_text, "")
+        self.assertEqual(self.chatbot.chat_history, [(message, "⚠️ The chatbot server is not responding."
+                                                      " Please check if it's running.")])
 
     @patch('requests.post')
     def test_send_message_timeout_error(self, mock_post):
+        """Teszteli az időtúllépési hiba kezelését."""
         mock_post.side_effect = requests.Timeout("Request timed out")
 
         chatbot_state = []
@@ -109,9 +144,12 @@ class TestChatbot(unittest.TestCase):
                                          "⚠️ The chatbot took too long to respond."
                                          " Try again later."}])
         self.assertEqual(result_text, "")
+        self.assertEqual(self.chatbot.chat_history, [(message, "⚠️ The chatbot took too long to respond."
+                                                      " Try again later.")])
 
     @patch('requests.post')
     def test_send_message_empty_response(self, mock_post):
+        """Teszteli az üres Rasa válasz kezelését."""
         mock_response = MagicMock()
         mock_response.json.return_value = []
         mock_response.raise_for_status.return_value = None
@@ -130,6 +168,8 @@ class TestChatbot(unittest.TestCase):
         self.assertEqual(result_state, [{"user": message, "bot": "⚠️ The chatbot didn't respond."
                                          " Please try again."}])
         self.assertEqual(result_text, "")
+        self.assertEqual(self.chatbot.chat_history, [(message, "⚠️ The chatbot didn't respond."
+                                                      " Please try again.")])
 
     @patch('requests.post')
     def test_send_message_http_error(self, mock_post):
@@ -146,8 +186,10 @@ class TestChatbot(unittest.TestCase):
         )
 
         self.assertEqual(result_chatbot, [(message, f"⚠️ HTTP Error: {error_message}")])
-        self.assertEqual(result_state, [{"user": message, "bot": f"⚠️ HTTP Error: {error_message}"}])
+        self.assertEqual(result_state, [{"user": message,
+                                         "bot": f"⚠️ HTTP Error: {error_message}"}])
         self.assertEqual(result_text, "")
+        self.assertEqual(self.chatbot.chat_history, [(message, f"⚠️ HTTP Error: {error_message}")])
 
     @patch('requests.post')
     def test_send_message_request_exception(self, mock_post):
@@ -166,6 +208,7 @@ class TestChatbot(unittest.TestCase):
         self.assertEqual(result_chatbot, [(message, f"⚠️ Error: {error_message}")])
         self.assertEqual(result_state, [{"user": message, "bot": f"⚠️ Error: {error_message}"}])
         self.assertEqual(result_text, "")
+        self.assertEqual(self.chatbot.chat_history, [(message, f"⚠️ Error: {error_message}")])
 
 
 if __name__ == '__main__':
