@@ -1,28 +1,24 @@
+import sys
+import os
+from pathlib import Path
+
+# Add project root to sys.path
+project_root = str(Path(__file__).parent.parent)
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 import gradio as gr
 import requests
 from src.process_pdf import PDFProcessor
 from src.chatbot import Chatbot
 from src.logger_setup import LoggerSetup
 from config.config_manager import ConfigManager
-# import logging
-# import os
-# import datetime
-# from process_pdf import extract_pdf_text
-# from dotenv import load_dotenv
+
 
 config = ConfigManager()
 RASA_URL = config.get("rasa_url")
 SESSION_LOG_PATH = config.get("session_log_path")
 
-# os.makedirs(os.path.dirname(SESSION_LOG_PATH), exist_ok=True)
-# logging.basicConfig(
-#     level=logging.INFO,
-#     format="%(asctime)s - %(levelname)s - [Gradio] %(message)s",
-#     handlers=[
-#         logging.FileHandler(SESSION_LOG_PATH, encoding="utf-8"),
-#         logging.StreamHandler()  # kimenetre is
-#     ]
-# )
 
 # logolas init
 logger_setup = LoggerSetup(SESSION_LOG_PATH)
