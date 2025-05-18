@@ -1,0 +1,9 @@
+C:\Chat_bot\actions\actions.py:19:1: E402 module level import not at top of file
+C:\Chat_bot\actions\actions.py:20:1: E402 module level import not at top of file
+C:\Chat_bot\src\gradio_app.py:2:1: F401 'os' imported but unused
+C:\Chat_bot\src\gradio_app.py:9:1: E402 module level import not at top of file
+C:\Chat_bot\src\gradio_app.py:10:1: E402 module level import not at top of file
+C:\Chat_bot\src\gradio_app.py:11:1: E402 module level import not at top of file
+C:\Chat_bot\src\gradio_app.py:12:1: E402 module level import not at top of file
+C:\Chat_bot\src\gradio_app.py:13:1: E402 module level import not at top of file
+C:\Chat_bot\src\gradio_app.py:14:1: E402 module level import not at top of file

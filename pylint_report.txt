@@ -1,8 +1,30 @@
 ************* Module actions.actions
-actions\actions.py:47:13: W0613: Unused argument 'question' (unused-argument)
-************* Module process_pdf
-src\process_pdf.py:125:16: E1101: Module 'pdfplumber' has no 'PDFException' member (no-member)
+actions\actions.py:62:0: C0325: Unnecessary parens after '=' keyword (superfluous-parens)
+actions\actions.py:12:0: E0401: Unable to import 'langchain_community.llms' (import-error)
+actions\actions.py:19:0: C0413: Import "from config.config_manager import ConfigManager" should be placed at the top of the module (wrong-import-position)
+actions\actions.py:20:0: C0413: Import "from src.logger_setup import LoggerSetup" should be placed at the top of the module (wrong-import-position)
+actions\actions.py:15:0: C0411: standard import "sys" should be placed before third party imports "wikipedia", "rasa_sdk.Action", "rasa_sdk.executor.CollectingDispatcher", "langchain_community.llms.HuggingFacePipeline", "transformers.pipeline" (wrong-import-order)
+actions\actions.py:16:0: C0411: standard import "os" should be placed before third party imports "wikipedia", "rasa_sdk.Action", "rasa_sdk.executor.CollectingDispatcher", "langchain_community.llms.HuggingFacePipeline", "transformers.pipeline" (wrong-import-order)
+************* Module src.chatbot
+src\chatbot.py:22:0: C0301: Line too long (117/100) (line-too-long)
+src\chatbot.py:35:0: C0301: Line too long (120/100) (line-too-long)
+src\chatbot.py:36:0: C0301: Line too long (110/100) (line-too-long)
+************* Module src.gradio_app
+src\gradio_app.py:68:0: C0301: Line too long (101/100) (line-too-long)
+src\gradio_app.py:5:0: C0103: Constant name "project_root" doesn't conform to UPPER_CASE naming style (invalid-name)
+src\gradio_app.py:9:0: C0413: Import "from src.process_pdf import PDFProcessor" should be placed at the top of the module (wrong-import-position)
+src\gradio_app.py:10:0: C0413: Import "from src.chatbot import Chatbot" should be placed at the top of the module (wrong-import-position)
+src\gradio_app.py:11:0: C0413: Import "from src.logger_setup import LoggerSetup" should be placed at the top of the module (wrong-import-position)
+src\gradio_app.py:12:0: C0413: Import "from config.config_manager import ConfigManager" should be placed at the top of the module (wrong-import-position)
+src\gradio_app.py:13:0: C0413: Import "import gradio as gr" should be placed at the top of the module (wrong-import-position)
+src\gradio_app.py:14:0: C0413: Import "import requests" should be placed at the top of the module (wrong-import-position)
+src\gradio_app.py:13:0: C0411: third party import "gradio" should be placed before first party imports "src.process_pdf.PDFProcessor", "src.chatbot.Chatbot", "src.logger_setup.LoggerSetup", "config.config_manager.ConfigManager"  (wrong-import-order)
+src\gradio_app.py:14:0: C0411: third party import "requests" should be placed before first party imports "src.process_pdf.PDFProcessor", "src.chatbot.Chatbot", "src.logger_setup.LoggerSetup", "config.config_manager.ConfigManager"  (wrong-import-order)
+src\gradio_app.py:2:0: W0611: Unused import os (unused-import)
+************* Module src.process_pdf
+src\process_pdf.py:42:8: W0612: Unused variable 'output_message' (unused-variable)
+src\process_pdf.py:42:24: W0612: Unused variable 'extracted_text' (unused-variable)
 
-------------------------------------------------------------------
-Your code has been rated at 9.79/10 (previous run: 9.79/10, -0.00)
+-----------------------------------
+Your code has been rated at 9.19/10
 
