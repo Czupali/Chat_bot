@@ -2,18 +2,18 @@ import sys
 import os
 from pathlib import Path
 
-# Add project root to sys.path
 project_root = str(Path(__file__).parent.parent)
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-import gradio as gr
-import requests
 from src.process_pdf import PDFProcessor
 from src.chatbot import Chatbot
 from src.logger_setup import LoggerSetup
 from config.config_manager import ConfigManager
+import gradio as gr
+import requests
 
+# Add project root to sys.path
 
 config = ConfigManager()
 RASA_URL = config.get("rasa_url")
@@ -52,6 +52,7 @@ with gr.Blocks(title="AI Chatbot") as demo:
         **Examples**: "What is AI?", "Tell me a joke!", "How are you?"
         """)
     chatbot = gr.Chatbot()
+    # chatbot = gr.Chatbot(type="messages")
     msg = gr.Textbox(label="Your message", placeholder="Type your message here...")
     clear_btn = gr.Button("Clear")
     pdf_upload = gr.File(label="Upload PDF", file_types=[".pdf"])  # PDF feltolto
@@ -59,14 +60,15 @@ with gr.Blocks(title="AI Chatbot") as demo:
     pdf_output = gr.Textbox(label="PDF Processing Result")  # Kimenet
 
     state = gr.State([])
+    pdf_text = gr.State("")
 
     # msg.submit(chat_with_rasa, [msg, chatbot, state], [chatbot, state, msg])
 
     # chatbot osztály használata
-    msg.submit(chatbot_instance.send_message, [msg, chatbot, state], [chatbot, state, msg])
-    clear_btn.click(lambda: ([], []), None, [chatbot, state])  # Delete gomb
+    msg.submit(chatbot_instance.send_message, [msg, chatbot, state, pdf_text], [chatbot, state, msg])
+    clear_btn.click(lambda: ([], []), None, [chatbot, state, pdf_text])  # Delete gomb
     # PDF feldolgozo gomb
-    process_pdf_btn.click(pdf_processor.extract_pdf_text, pdf_upload, pdf_output)
+    process_pdf_btn.click(pdf_processor.extract_pdf_text, pdf_upload, [pdf_output, pdf_text])
 
 if __name__ == "__main__":
     if not check_rasa_server():

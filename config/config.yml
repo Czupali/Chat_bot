@@ -11,6 +11,7 @@ assistant_id: 20250418-201645-nullary-azimuth
 language: en
 
 pipeline: #null
+   # Existing pipeline
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # # If you'd like to customize it, uncomment and adjust the pipeline.
 # # See https://rasa.com/docs/rasa/tuning-your-model for more information.
@@ -63,5 +64,9 @@ policies: #null
      # ( Az epochs: 100 jó kiindulópont, de ha túlillesztést tapasztalsz (pl. a modell túl specifikusan tanulja az nlu.yml példáit), csökkentsd 50-80-ra. )
      constrain_similarities: true
      # Rugalmasságot ad a komplexebb beszélgetésekhez, például amikor a felhasználó small talk és tudományos témák között vált. Az epochs: 100 és max_history: 5 jó egyensúlyt biztosít a tanulás és a teljesítmény között.
-
+   # - name: FallbackClassifier
+   #   nlu_threshold: 0.4
+   #   core_threshold: 0.4
+   #   fallback_action_name: action_topic_handler
 # Kihagyva: UnexpecTEDIntentPolicy (a jelenlegi forgatókönyvek elég egyszerűek, a TEDPolicy elegendő).
+   

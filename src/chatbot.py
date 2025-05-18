@@ -1,6 +1,7 @@
 import requests
 from src.logger_setup import LoggerSetup
 from config.config_manager import ConfigManager
+from actions.actions import call_llm
 
 # Konfiguráció betoltese
 config = ConfigManager()
@@ -18,7 +19,7 @@ class Chatbot:
         self.logger = logger_setup.get_logger("Chatbot")
         self.logger.info("Chatbot initialized with Rasa URL: %s", rasa_url)
 
-    def send_message(self, message: str, chatbot: list, state: list) -> tuple[list, list, str]:
+    def send_message(self, message: str, chatbot: list, state: list, pdf_text: str = None) -> tuple[list, list, str]:
         """Elküldi az üzenetet a Rasa szervernek és visszaadja az előzményeket és a választ."""
         if not message.strip():
             self.logger.warning("Empty message received.")
@@ -26,41 +27,54 @@ class Chatbot:
 
         self.logger.info("User message: %s", message)
 
-        try:
-            # HTTP kérés küldése a Rasa szervernek
-            response = requests.post(
-                self.rasa_url,
-                json={"sender": "user", "message": message},
-                timeout=5
-            )
-            response.raise_for_status()
-            data = response.json()
+        if pdf_text:
+            # Ha van PDF szöveg, használjuk az LLM-et
+            try:
+                # Rövidítjük a szöveget, ha túl hosszú
+                max_context_length = 1000
+                truncated_pdf_text = pdf_text[:max_context_length] if (len(pdf_text) > max_context_length) else pdf_text
+                prompt = f"Kérdés: {message}\nKontextus: {truncated_pdf_text}\nVálaszolj röviden és pontosan."
+                bot_reply = call_llm(prompt)
+                self.logger.info("LLM response with PDF context: %s", bot_reply)
+            except Exception as e:
+                self.logger.error("LLM error: %s", e)
+                bot_reply = "⚠️ Hiba a PDF alapú válasz generálása közben."
+        else:
+            try:
+                # HTTP kérés küldése a Rasa szervernek
+                response = requests.post(
+                    self.rasa_url,
+                    json={"sender": "user", "message": message},
+                    timeout=60
+                )
+                response.raise_for_status()
+                data = response.json()
 
-            if not data:
-                self.logger.error("Empty response from Rasa server.")
-                bot_reply = "⚠️ The chatbot didn't respond. Please try again."
-            else:
-                bot_reply = ""
-                for item in data:
-                    if "text" in item:
-                        bot_reply += item["text"] + "\n"
-                    if "image" in item:
-                        bot_reply += f"![Image]({item['image']})\n"
-                bot_reply = bot_reply.strip() or "⚠️ Nincs érvényes válasz a chatbottól."
-                self.logger.info("Rasa response: %s", bot_reply)
+                if not data:
+                    self.logger.error("Empty response from Rasa server.")
+                    bot_reply = "⚠️ The chatbot didn't respond. Please try again."
+                else:
+                    bot_reply = ""
+                    for item in data:
+                        if "text" in item:
+                            bot_reply += item["text"] + "\n"
+                        if "image" in item:
+                            bot_reply += f"![Image]({item['image']})\n"
+                    bot_reply = bot_reply.strip() or "⚠️ Nincs érvényes válasz a chatbottól."
+                    self.logger.info("Rasa response: %s", bot_reply)
 
-        except requests.ConnectionError:
-            self.logger.error("Connection error: Rasa server is not responding.")
-            bot_reply = "⚠️ The chatbot server is not responding. Please check if it's running."
-        except requests.Timeout:
-            self.logger.error("Timeout error: Rasa server took too long to respond.")
-            bot_reply = "⚠️ The chatbot took too long to respond. Try again later."
-        except requests.HTTPError as e:
-            self.logger.error("HTTP error: %s", e)
-            bot_reply = f"⚠️ HTTP Error: {e}"
-        except requests.RequestException as e:
-            self.logger.error("Request error: %s", e)
-            bot_reply = f"⚠️ Error: {e}"
+            except requests.ConnectionError:
+                self.logger.error("Connection error: Rasa server is not responding.")
+                bot_reply = "⚠️ The chatbot server is not responding. Please check if it's running."
+            except requests.Timeout:
+                self.logger.error("Timeout error: Rasa server took too long to respond.")
+                bot_reply = "⚠️ The chatbot took too long to respond. Try again later."
+            except requests.HTTPError as e:
+                self.logger.error("HTTP error: %s", e)
+                bot_reply = f"⚠️ HTTP Error: {e}"
+            except requests.RequestException as e:
+                self.logger.error("Request error: %s", e)
+                bot_reply = f"⚠️ Error: {e}"
 
         # Csevegési előzmények frissítése
         self.chat_history.append((message, bot_reply))

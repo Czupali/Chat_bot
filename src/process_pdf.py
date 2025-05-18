@@ -26,19 +26,20 @@ class PDFProcessor:
             self.logger.error("Failed to create output directory: %s", output_dir)
         self.logger.info("PDFProcessor initialized with output directory: %s", output_dir)
 
-    def extract_pdf_text(self, pdf_file: str) -> str:
+    def extract_pdf_text(self, pdf_file: str) -> tuple[str, str]:
         """Kinyeri a szoveget egy PDF-bol és elmenti egy .txt fajlba."""
         # Ellenőrizzük, hogy Gradio tempfile vagy normál fájl
         # if isinstance(pdf_file, tempfile._TemporaryFileWrapper):  # javítva pylint warning miatt
         pdf_path = self._get_pdf_path(pdf_file)
         if not pdf_path:
-            return "Hiba: Érvénytelen PDF fájl vagy fájlútvonal."
+            return "Hiba: Érvénytelen PDF fájl vagy fájlútvonal.", ""
 
         if not self._validate_file(pdf_path):
-            return f"Hiba: A fájl nem található vagy üres: {pdf_path}"
+            return f"Hiba: A fájl nem található vagy üres: {pdf_path}", ""
         self.logger.info("The file is valid!")
 
         self.logger.info("Starting PDF processing for: %s", pdf_path)
+        output_message, extracted_text = self._process_pdf(pdf_path)
         return self._process_pdf(pdf_path)
 
     def _get_pdf_path(self, pdf_file: str) -> str:
@@ -103,17 +104,17 @@ class PDFProcessor:
                 f.write(text)
 
             self.logger.info("PDF text extracted and saved to: %s", output_file)
-            return f"Szoveg kinyerve es elmentve: {output_file}"
+            return f"Szoveg kinyerve es elmentve: {output_file}", text
 
         except FileNotFoundError:
             self.logger.error("PDF file not found: %s", pdf_path)
-            return f"Hiba: A PDF fájl nem található: {pdf_path}"
+            return f"Hiba: A PDF fájl nem található: {pdf_path}", ""
         except PDFSyntaxError:
             self.logger.error("Invalid PDF format: %s", pdf_path)
-            return f"Hiba: Érvénytelen PDF formátum: {pdf_path}"
+            return f"Hiba: Érvénytelen PDF formátum: {pdf_path}", ""
         except (Exception, OSError) as e:
             self.logger.error("Error processing PDF %s: %s", pdf_path, str(e))
-            return f"Hiba a PDF feldolgozása közben: {str(e)}"
+            return f"Hiba a PDF feldolgozása közben: {str(e)}", ""
 
     # Azóta ignore-ba tettem
     # # Mivel a pylint szerint egy osztálynak minimum 2 public metódosa kell legyen, igí...

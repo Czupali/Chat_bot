@@ -9,18 +9,15 @@ from typing import Any, Dict, List, Text
 import wikipedia
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+from langchain_community.llms import HuggingFacePipeline
+from transformers import pipeline
+
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from config.config_manager import ConfigManager
 from src.logger_setup import LoggerSetup
-
-# from dotenv import load_dotenv, set_key
-# import datetime
-# import os
-# import logging
-
-# model_name = "mistralai/Mistral-7B-Instruct-v0.1"
-# tokenizer = AutoTokenizer.from_pretrained(model_name)
-# model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16)
 
 config = ConfigManager()
 RASA_URL = config.get("rasa_url")
@@ -39,18 +36,38 @@ logger.info("Testing actions.py logging")
 
 
 def call_llm(question: str) -> str:
-    # # Kérdés tokenizálása
-    # inputs = tokenizer(question, return_tensors="pt")
+    """Call a local LLM to generate a response for the given question."""
+    logger.info("Start to use llm. Called the function")
+    print("Start to use llm. Called the function")
+    try:
+        # Initialize the question-answering pipeline with Flan-T5-base
+        qa_pipeline = pipeline(
+            "text2text-generation",
+            model="google/flan-t5-base",
+            tokenizer="google/flan-t5-base",
+            max_length=768,
+            # max_length=1024
+            device=-1,  # CPU
+            do_sample=True,
+            temperature=0.7,
+            #  temperature=0.9
+            top_p=0.95
+        )
+        response = qa_pipeline("What is supervised learning?")
+        print(response)
+        logger.info("LLM is up and working '%s': %s", question, response)
 
-    # # Modell előrejelzés
-    # with torch.no_grad():
-    #     outputs = model.generate(**inputs, max_length=100,
-    # num_return_sequences=1, temperature=0.7)
+        llm = HuggingFacePipeline(pipeline=qa_pipeline)
 
-    # # Válasz dekódolása és visszaadása
-    # answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    # return answer.strip()
-    return "🔮 (This is where an LLM would generate a smart answer...)"
+        improved_prompt = (f"Please explain in detail, with examples: {question}")
+        response = llm.invoke(improved_prompt)
+        logger.info("LLM response for question '%s': %s", question, response)
+        return response.strip()
+
+    except Exception as e:
+        logger.error("LLM error for question '%s': %s", question, str(e))
+        return "Sorry, I couldn't generate an answer due to an error."
+    # return "🔮 (This is where an LLM would generate a smart answer...)"
 
 
 class ActionTopicHandler(Action):
